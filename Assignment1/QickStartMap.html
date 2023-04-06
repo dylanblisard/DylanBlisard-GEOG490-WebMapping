@@ -21,6 +21,14 @@
           color: white;
           padding: 1px;
         }  
+
+        h1, h3 {
+          font-family: Helvetica;
+        }
+
+        img {
+          padding-top: 15px; 
+        }
     </style>
   </head>
 
@@ -29,8 +37,8 @@
     <div id='map'></div>
     <!--  Insert the tile div here (part V) -->
     <div id='title'>
-      <h1>A Map of Portland</h1>
-      <h2>By: Dylan Blisard</h2>
+      <h1>Ashland & Talent, Oregon</h1>
+      <h3>By: Dylan Blisard</h3>
     </div>
     <script>
         // Insert the JavaScript within the <script> tags, within the body   
@@ -42,32 +50,39 @@
          var map = new mapboxgl.Map({
              container: 'map', // id of a div on your page, where the map will be inserted
              style: 'mapbox://styles/mapbox/outdoors-v12', // stylesheet location
-             center: [-122.6788, 45.5212], // starting position [lng, lat] eg. [-122.6788, 45.5212]
-             zoom: 11 // starting zoom 
+             center: [-122.739323, 42.221177], // starting position [lng, lat] eg. [-122.6788, 45.5212]
+             zoom: 12 // starting zoom 
         });
         
 
     
         // Add popup markers here  (part IV)
         var popup = new mapboxgl.Popup({ offset: 25 })
-            .setHTML('<a href="https://en.wikipedia.org/wiki/Portland,_Oregon">Portland Oregon Wikipedia</a>');
+            .setHTML('<a href="https://en.wikipedia.org/wiki/Ashland,_Oregon">Ashland Wikipedia</a>');
         
-         var marker = new mapboxgl.Marker({color:'grey'})
-            .setLngLat([-122.6788, 45.5212])
+        var marker = new mapboxgl.Marker({color:'green'})
+            .setLngLat([-122.71466, 42.2])
             .setPopup(popup) //add the popup with the variable name 'popup' to the marker 
             .addTo(map); // add the open marker to the map
 
-          var popup_layer = new mapboxgl.Popup({closeOnClick: true, anchor: 'top-right'}) 
-            .setLngLat([-122.69, 45.52]) //popup coordinates
-            .setHTML('<img src="https://www.tripsavvy.com/thmb/Rsrq1idLJnGBbsQ53qG9dDAZ2nk=/3865x2576/filters:fill(auto,1)/portland-oregon-downtown-cityscape-in-the-fall-181229873-578404d73df78c1e1f73a34e.jpg" width="200">') //popup text
-            .addTo(map); //add this popup to the map!
+          var popup1 = new mapboxgl.Popup({ offset: 25 })
+            .setHTML('<a href="https://en.wikipedia.org/wiki/Talent,_Oregon">Talent Wikipedia</a>');
         
-        // Add any other variables such as markers here (part III)
-        var marker2 = new mapboxgl.Marker({color:'grey'})
-            .setLngLat([-122.69, 45.55]) // starting position [lng, lat] 
-            .addTo(map);
+         var marker1 = new mapboxgl.Marker({color:'green'})
+            .setLngLat([-122.78549, 42.24624])
+            .setPopup(popup1) //add the popup with the variable name 'popup' to the marker 
+            .addTo(map); // add the open marker to the map
 
-        // Add optional advanced "On load" function here
+          var popup_layer = new mapboxgl.Popup({closeOnClick: false, anchor: 'top-right'}) 
+            .setLngLat([-122.7127020097428, 42.19581419843329]) //popup coordinates
+            .setHTML('<img src="https://cdn.creators.com/264/257635/tad070619bdAW.jpg" width="200">') //popup text
+            .addTo(map); //add this popup to the map!
+
+          var popup_layer1 = new mapboxgl.Popup({closeOnClick: false, anchor: 'top-left'}) 
+            .setLngLat([-122.78930326953254, 42.24273281678171]) //popup coordinates
+            .setHTML('<img src="https://th.bing.com/th/id/R.4e0d13efb92845c90a2ba746051a83fb?rik=nLMmpIbKnk210Q&riu=http%3a%2f%2fwww.cityoftalent.org%2fSIB%2fimages%2fDJI_0031+(1).JPG&ehk=2xvAhtNkJTduiq%2ffKFIG44sako2JnHc8A788ySFSE6I%3d&risl=&pid=ImgRaw&r=0" width="220">') //popup text
+            .addTo(map); //add this popup to the map!
+
         
     </script>
 
