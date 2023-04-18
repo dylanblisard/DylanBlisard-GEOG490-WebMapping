@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Owners vs Renters Map</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      /*  stlye for paragraph tags */
+      p {
+        color: white;
+        text-align: center;
+      }
+
+      /* style for heading level 4 tags */
+      h4 {
+        color: white;
+        margin-left: 10px;
+      }
+
+      /*  style for items with the class "LegendContainer" */
+      .LegendContainer {
+        position: relative;
+        bottom: 20px;
+        top: 0px;
+        left: 14px;
+        z-index: 2;
+        width: 300px;
+        height: 50px;
+        border-radius: 7px;
+      }
+
+      /*  style for items with the class "descriptionPanel" */
+      .descriptionPanel {
+        position: absolute;
+        bottom: 50px;
+        left: 20px;
+        z-index: 2;
+        width: 300px;
+        height: 100px;
+        background: rgba(80, 80, 80, 0.75);
+        transition: width 2s, height 2s;
+        overflow: hidden;
+        border-radius: 7px;
+      }
+
+      /*  style for items with the class "descriptionPanel" when active */
+
+      /* style for items with the class "legendItem" */
+      .legendItem {
+        margin: 0px;
+        padding-left: 10px;
+        display: inline-block;
+        margin: auto;
+        transform: translate(50%, 50%);
+      }
+
+      /* style for items with the class "layerDescription" */
+      .layerDescription {
+        color: white;
+        padding-left: 10px;
+      }
+
+      .renter {
+        color: #cc00c2;
+      }
+      .owner {
+        color: #00d2e6;
+      }
+
+      /* style for items with the class "chevron" */
+      .chevron {
+        position: relative;
+        margin-left: 45%;
+        font-size: x-large;
+        color: white;
+      }
+      h4 {
+        text-align: center;
+        font-family: Helvetica, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="descriptionPanel" id="descriptionPanel" style="height: 300px">
+      <span
+        style="margin-top: 20px; margin-bottom: 10px"
+        onClick="panelSelect()"
+        id="glyph"
+        class="chevron glyphicon glyphicon-chevron-down"
+      ></span>
+      <div class="LegendContainer">
+        <div class="legendItem">
+          <span class="owner">&#11044;</span>
+          <span class="layerDescription">Owners</span>
+        </div>
+        <div class="legendItem">
+          <span class="renter">&#11044;</span>
+          <span class="layerDescription">Renters</span>
+        </div>
+      </div>
+      <h4><b>WHAT AM I LOOKING AT?</b></h4>
+      <p style="margin-left: 10px; margin-right: 10px">
+        This is a map showing every single person in the Portland Area as a dot.
+        Data is taken from the 2017 US Census, and is accurate at the level of a
+        block, however within each block location is randomized. Points are
+        colored based on the number home owners versus renters on a block.
+      </p>
+    </div>
+    <div id="map"></div>
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiZGJsaXNhcmQiLCJhIjoiY2xnNWQ2NzBqMDFvMTNtbWpjcnF2N3BwayJ9.A_cJHb58qSAoYjKyBcz6yw";
+      var map = new mapboxgl.Map({
+        container: "map", // container id
+        style: "mapbox://styles/dblisard/clgmioiro001h01q4fzix1x3c", // stylesheet location
+      });
+
+      const nav = new mapboxgl.NavigationControl();
+      map.addControl(nav, "top-left");
+
+      var state = { panelOpen: true };
+
+      function panelSelect(e) {
+        if (state.panelOpen) {
+          document.getElementById("descriptionPanel").style.height = "100px";
+          document.getElementById("glyph").className =
+            "chevron glyphicon glyphicon-chevron-up";
+          state.panelOpen = false;
+        } else {
+          document.getElementById("descriptionPanel").style.height = "300px";
+          document.getElementById("glyph").className =
+            "chevron glyphicon glyphicon-chevron-down";
+          state.panelOpen = true;
+        }
+      }
+    </script>
+  </body>
+</html>
