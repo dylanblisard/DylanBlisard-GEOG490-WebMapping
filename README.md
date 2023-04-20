@@ -6,5 +6,5 @@ https://dylanblisard.github.io/DylanBlisard-GEOG490-assignments/Assignment1/Qick
 Assignment #2
 https://dylanblisard.github.io/DylanBlisard-GEOG490-assignments/Assignment2/Fixed-structure.html
 
-Assignment #2
+Assignment #3
 https://dylanblisard.github.io/DylanBlisard-GEOG490-assignments/Assignment3/index.html
