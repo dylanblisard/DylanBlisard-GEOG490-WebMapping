@@ -33,7 +33,9 @@
       /*  stlye for paragraph tags */
       p {
         color: white;
-        text-align: center;
+        text-align: justify;
+        padding-left: 20px;
+        padding-right: 20px;
       }
 
       /* style for heading level 4 tags */
@@ -106,7 +108,7 @@
     </style>
   </head>
   <body>
-    <div class="descriptionPanel" id="descriptionPanel" style="height: 300px">
+    <div class="descriptionPanel" id="descriptionPanel" style="height: 325px">
       <span
         style="margin-top: 20px; margin-bottom: 10px"
         onClick="panelSelect()"
@@ -152,7 +154,7 @@
             "chevron glyphicon glyphicon-chevron-up";
           state.panelOpen = false;
         } else {
-          document.getElementById("descriptionPanel").style.height = "300px";
+          document.getElementById("descriptionPanel").style.height = "325px";
           document.getElementById("glyph").className =
             "chevron glyphicon glyphicon-chevron-down";
           state.panelOpen = true;
