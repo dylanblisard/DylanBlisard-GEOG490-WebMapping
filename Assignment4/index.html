@@ -40,9 +40,9 @@
         // owner map
         var ownerMap = new mapboxgl.Map({
             container: 'owners', // owners map div 
-            style: 'mapbox://styles/mapbox/dark-v10', // Mapbox dark style 
+            style: 'mapbox://styles/mapbox/light-v10', // Mapbox dark style 
             center: [-122.67610070754569, 45.502432373945645], 
-            zoom: 10 
+            zoom: 8.5
         });
 
         ownerMap.on('load', function() {
@@ -58,17 +58,17 @@
                     'fill-color':
                     ["step",
                         ["get", "Own"],
-                        "hsl(225, 100%, 97%)",
+                        "#edf8fb",
                         17.0,
-                        "hsl(203, 47%, 82%)",
+                        "#b3cde3",
                         22.0,
-                        "hsl(202, 57%, 63%)",
+                        "#8c96c6",
                         27.0,
-                        "#3182bd",
+                        "#8856a7",
                         32.0,
-                        "hsl(210, 90%, 32%)"
+                        "#810f7c"
                     ],
-                    "fill-opacity": 0.7 
+                    "fill-opacity": 0.7
                 }       
             });
         });
@@ -76,9 +76,9 @@
         // renter Map
         var renterMap = new mapboxgl.Map({
             container: 'renters', // owners map div 
-            style: 'mapbox://styles/mapbox/dark-v10', // Mapbox light style so we can observe the swipe
+            style: 'mapbox://styles/mapbox/light-v10', // Mapbox light style so we can observe the swipe
             center: [-122.67610070754569, 45.502432373945645],// Use the same center as your other map so that they are perfectly aligned
-            zoom: 10 
+            zoom: 8.5
         });
 
         renterMap.on('load', function() {
@@ -94,17 +94,17 @@
                     'fill-color':
                     ["step",
                         ["get", "Rent"],
-                        "hsl(225, 100%, 97%)",
+                        "#edf8fb",
                         17.0,
-                        "hsl(203, 47%, 82%)",
+                        "#b3cde3",
                         22.0,
-                        "hsl(202, 57%, 63%)",
+                        "#8c96c6",
                         27.0,
-                        "#3182bd",
+                        "#8856a7",
                         32.0,
-                        "hsl(210, 90%, 32%)"
+                        "#810f7c"
                     ],
-                    "fill-opacity": 0.7 
+                    "fill-opacity": 0.7
                 }       
             });
         });
