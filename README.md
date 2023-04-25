@@ -8,3 +8,6 @@ https://dylanblisard.github.io/DylanBlisard-GEOG490-assignments/Assignment2/Fixe
 
 Assignment #3
 https://dylanblisard.github.io/DylanBlisard-GEOG490-assignments/Assignment3/index.html
+
+Assignment #4
+https://dylanblisard.github.io/DylanBlisard-GEOG490-assignments/Assignment4/index.html
