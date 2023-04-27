@@ -26,13 +26,78 @@
           bottom: 0;
           width: 100%;
           }
+
+        p {
+        color: white;
+        text-align: justify;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-family: Helvetica, sans-serif;
+      }
+
+      .LegendContainer {
+        position: relative;
+        bottom: 20px;
+        top: 0px;
+        left: 14px;
+        z-index: 2;
+        width: 300px;
+        height: 50px;
+        border-radius: 7px;
+      }
+
+      .legendItem {
+        margin: 0px;
+        padding-left: 10px;
+        display: inline-block;
+        margin: auto;
+        transform: translate(50%, 50%);
+      }
+
+      .descriptionPanel {
+        position: absolute;
+        bottom: 40px;
+        left: 30px;
+        z-index: 2;
+        width: 300px;
+        height: 100px;
+        background: rgba(80, 80, 80, 0.75);
+        transition: width 2s, height 2s;
+        overflow: hidden;
+        border-radius: 7px;
+      }
+
+      .layerDescription {
+        color: white;
+        padding-left: 10px;
+      }
+
+      .renter {
+        color: #fbb23c;
+      }
+      .owner {
+        color: #3ab1cf;
+      }
+
+      h4 {
+        text-align: center;
+        font-family: Helvetica, sans-serif;
+        color: white;
+        margin-left: 10px;
+      }
+
+      .mapboxgl-compare .compare-swiper-vertical {
+        background-color: #424242;
+      }
       </style>
  </head>
  <body>
-     <div id="comparison-container">
-      		<div id='owners' class='map'></div>  <!-- div for owners map div -->
-      		<div id='renters' class='map'></div> <!--  div for renters map div -->
-  		</div>
+
+    <div id="comparison-container">
+      	<div id='owners' class='map'></div>  <!-- div for owners map div -->
+      	<div id='renters' class='map'></div> <!--  div for renters map div -->
+  	</div>
+
 
      <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiZGJsaXNhcmQiLCJhIjoiY2xnNWQ2NzBqMDFvMTNtbWpjcnF2N3BwayJ9.A_cJHb58qSAoYjKyBcz6yw';
@@ -40,7 +105,7 @@
         // owner map
         var ownerMap = new mapboxgl.Map({
             container: 'owners', // owners map div 
-            style: 'mapbox://styles/mapbox/light-v10', // Mapbox dark style 
+            style: 'mapbox://styles/mapbox/dark-v10', // Mapbox dark style 
             center: [-122.67610070754569, 45.502432373945645], 
             zoom: 8.5
         });
@@ -58,17 +123,17 @@
                     'fill-color':
                     ["step",
                         ["get", "Own"],
-                        "#edf8fb",
+                        "#0C2329",
                         17.0,
-                        "#b3cde3",
+                        "#174753",
                         22.0,
-                        "#8c96c6",
+                        "#236A7C",
                         27.0,
-                        "#8856a7",
+                        "#2E8EA6",
                         32.0,
-                        "#810f7c"
+                        "#3AB1CF"
                     ],
-                    "fill-opacity": 0.7
+                    "fill-opacity": 0.5
                 }       
             });
         });
@@ -76,7 +141,7 @@
         // renter Map
         var renterMap = new mapboxgl.Map({
             container: 'renters', // owners map div 
-            style: 'mapbox://styles/mapbox/light-v10', // Mapbox light style so we can observe the swipe
+            style: 'mapbox://styles/mapbox/dark-v10', // Mapbox light style so we can observe the swipe
             center: [-122.67610070754569, 45.502432373945645],// Use the same center as your other map so that they are perfectly aligned
             zoom: 8.5
         });
@@ -94,17 +159,17 @@
                     'fill-color':
                     ["step",
                         ["get", "Rent"],
-                        "#edf8fb",
+                        "#32240C",
                         17.0,
-                        "#b3cde3",
+                        "#644718",
                         22.0,
-                        "#8c96c6",
+                        "#976B24",
                         27.0,
-                        "#8856a7",
+                        "#C98E30",
                         32.0,
-                        "#810f7c"
+                        "#FBB23C"
                     ],
-                    "fill-opacity": 0.7
+                    "fill-opacity": 0.5
                 }       
             });
         });
