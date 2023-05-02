@@ -11,3 +11,6 @@ https://dylanblisard.github.io/DylanBlisard-GEOG490-assignments/Assignment3/inde
 
 Assignment #4
 https://dylanblisard.github.io/DylanBlisard-GEOG490-assignments/Assignment4/index.html
+
+Assignment #5
+https://dylanblisard.github.io/DylanBlisard-GEOG490-assignments/Assignment5/VersitileLayout.html
