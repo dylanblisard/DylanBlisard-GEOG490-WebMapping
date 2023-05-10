@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <title>Final</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
-    <link
-      href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet"/>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet"/>
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
     <style>
       body {
@@ -45,6 +44,9 @@
       }
       .mapboxgl-popup-content {
         min-width: 200px;
+      }
+      #search {
+        position: absolute;
       }
 
     </style>
@@ -190,7 +192,8 @@
           let comments = e.features[0].properties.Comments;
           let period = e.features[0].properties.Period || "N/A";
           let dating = e.features[0].properties.Dating || "N/A";
-          let firstdate = e.features[0].properties.Dating || "N/A";
+          let firstdate = e.features[0].properties["Earliest date"];
+          let lastdate = e.features[0].properties["Latest date"];
           let depth = e.features[0].properties.Depth || "N/A";
 
 
@@ -198,6 +201,17 @@
             if(cargo == ""){
               comments = "No Details";
             }
+          }
+
+          if (firstdate < 0) {
+            firstdate = firstdate.slice(1) + " BCE"
+          } else {
+            firstdate = firstdate + " CE"
+          }          
+          if (lastdate < 0) {
+            lastdate = lastdate.slice(1) + " BCE"
+          } else {
+            lastdate = lastdate + " CE"
           }
 
           // Ensure that if the map is zoomed out such that
@@ -211,7 +225,7 @@
             .setLngLat(coordinates)
             .setHTML(`<b>${name} Wreck</b><br>
                       Period: ${period}<br> 
-                      Dating: ${dating}<br>
+                      Dating: ${firstdate} to ${lastdate}<br>
                       Depth: ${depth}<br>
                       <hr>
                       ${comments} ${cargo}`)
