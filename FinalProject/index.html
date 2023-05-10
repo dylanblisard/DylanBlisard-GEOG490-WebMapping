@@ -18,34 +18,90 @@
         bottom: 0;
         width: 100%;
       }
+
+      @font-face {
+        font-family: 'Trajan';
+        src: url('./fonts/TrajanProRegular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      .title {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-family: 'Trajan', Arial, sans-serif;
+        color: #66023C;
+        font-size: 50px;
+        border-radius: 5px;
+        width: auto;
+        line-height: 60px;
+        text-align: center;
+        backdrop-filter: blur(2px);
+      }
+
+      .mapboxgl-popup-close-button {
+        color: #66023C;
+        font-size: 20px;
+      }
+      .mapboxgl-popup-content {
+        min-width: 200px;
+      }
+
     </style>
   </head>
   <body>
+    
     <div id="map"></div>
 
     <script>
+      function convertToRoman(num) {
+        var romanMatrix = [
+        [1000, 'M'],
+        [900, 'CM'],
+        [500, 'D'],
+        [400, 'CD'],
+        [100, 'C'],
+        [90, 'XC'],
+        [50, 'L'],
+        [40, 'XL'],
+        [10, 'X'],
+        [9, 'IX'],
+        [5, 'V'],
+        [4, 'IV'],
+        [1, 'I']];
+
+        for (let i in romanMatrix) {
+          if (num >= romanMatrix[i][0]) {
+            return romanMatrix[i][1] + convertToRoman(num - romanMatrix[i][0]);
+          }
+        }
+      }
+
       mapboxgl.accessToken =
         "pk.eyJ1IjoiZGJsaXNhcmQiLCJhIjoiY2xnNWQ2NzBqMDFvMTNtbWpjcnF2N3BwayJ9.A_cJHb58qSAoYjKyBcz6yw";
       const map = new mapboxgl.Map({
         container: "map",
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: "mapbox://styles/dblisard/clhgme7q900gh01pwbcx7ek46",
+        style: "mapbox://styles/dblisard/clhh3kx1s002m01r5445thn5d",
+        maxBounds: [
+          [-10, 27], // Southwest coordinates [longitude, latitude]
+          [40, 50]   // Northeast coordinates [longitude, latitude]
+        ],
         center: [16.633617, 38.408870],
-        zoom: 4,
+        zoom: 2,
+        minZoom: 4,
+        pitchWithRotate: false, // Disable 3D mode
+        dragRotate: false // Disable map rotation
       });
 
       map.on("load", () => {
-        // Add a new source from our GeoJSON data and
-        // set the 'cluster' option to true. GL-JS will
-        // add the point_count property to your source data.
         map.addSource("shipwrecks", {
           type: "geojson",
-          // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-          // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
           data: "Shipwrecks.geojson",
           cluster: true,
           clusterMaxZoom: 14, // Max zoom to cluster points on
-          clusterRadius: 40, // Radius of each cluster when clustering points (defaults to 50)
+          clusterRadius: 25, // Radius of each cluster when clustering points
         });
 
         map.addLayer({
@@ -54,29 +110,18 @@
           source: "shipwrecks",
           filter: ["has", "point_count"],
           paint: {
-            // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-            // with three steps to implement three types of circles:
-            //   * Blue, 20px circles when point count is less than 100
-            //   * Yellow, 30px circles when point count is between 100 and 750
-            //   * Pink, 40px circles when point count is greater than or equal to 750
-            "circle-color": [
-              "step",
-              ["get", "point_count"],
-              "#66023C",
-              100,
-              "#66023C",
-              750,
-              "#66023C",
-            ],
+            "circle-color": "#66023C",
             "circle-radius": [
               "step",
               ["get", "point_count"],
+              10,
+              10,
+              15,
+              15,
               20,
-              100,
-              30,
-              750,
-              40,
             ],
+            "circle-stroke-width": 2,
+            "circle-stroke-color": "#ffffff",
           },
         });
 
@@ -86,12 +131,13 @@
           source: "shipwrecks",
           filter: ["has", "point_count"],
           layout: {
-            "text-field": ["get", "point_count_abbreviated"],
+            "text-field": ["get", "point_count"],
             "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-            "text-size": 12,
+            "text-size": 16,
           },
+          paint: {"text-color": "#fff"}
         });
-        map.setPaintProperty('cluster-count', 'text-color', '#fff');
+
 
         map.addLayer({
           id: "unclustered-point",
@@ -100,11 +146,21 @@
           filter: ["!", ["has", "point_count"]],
           paint: {
             "circle-color": "#66023C",
-            "circle-radius": 4,
-            "circle-stroke-width": 1,
-            "circle-stroke-color": "#fff",
+            "circle-radius": 5,
+            "circle-stroke-width": 2,
+            "circle-stroke-color": "#ffffff",
           },
         });
+
+        // Create a geographically static HTML marker
+        const markerElement = document.createElement('div');
+        markerElement.className = 'title';
+        markerElement.innerHTML = 'Ancient Shipwrecks<br>of the<br>mediterranean';
+
+        new mapboxgl.Marker(markerElement)
+          .setLngLat([22, 46.25])
+          .addTo(map);
+
 
         // inspect a cluster on click
         map.on("click", "clusters", (e) => {
@@ -129,9 +185,21 @@
         // the location of the feature, with
         // description HTML from its properties.
         map.on("click", "unclustered-point", (e) => {
-          const coordinates = e.features[0].geometry.coordinates.slice();
-          const name = e.features[0].properties.Name;
-          const comments = e.features[0].properties.Comments;
+          let coordinates = e.features[0].geometry.coordinates.slice();
+          let name = e.features[0].properties.Name || "N/A";
+          let cargo = e.features[0].properties["Other cargo"];
+          let comments = e.features[0].properties.Comments;
+          let period = e.features[0].properties.Period || "N/A";
+          let dating = e.features[0].properties.Dating || "N/A";
+          let firstdate = e.features[0].properties.Dating || "N/A";
+          let depth = e.features[0].properties.Depth || "N/A";
+
+
+          if (comments == "") {
+            if(cargo == ""){
+              comments = "No Details";
+            }
+          }
 
           // Ensure that if the map is zoomed out such that
           // multiple copies of the feature are visible, the
@@ -142,7 +210,12 @@
 
           new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(`Name: ${name}<br>Comments: ${comments}`)
+            .setHTML(`<b>${name} Wreck</b><br>
+                      Period: ${period}<br> 
+                      Dating: ${dating}<br>
+                      Depth: ${depth}<br>
+                      <hr>
+                      ${comments} ${cargo}`)
             .addTo(map);
         });
 
