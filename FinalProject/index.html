@@ -5,7 +5,11 @@
     <title>Final</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    
     <style>
       body {
         margin: 0;
@@ -37,7 +41,6 @@
         line-height: 60px;
         text-align: center;
       }
-
       .mapboxgl-popup-close-button {
         color: #66023C;
         font-size: 20px;
@@ -45,11 +48,8 @@
       .mapboxgl-popup-content {
         min-width: 300px;
         align-self: center;
+        font-family: 'Open Sans', sans-serif;
       }
-      #search {
-        position: absolute;
-      }
-
     </style>
   </head>
   <body>
@@ -58,7 +58,7 @@
 
     <script>
       function convertToRoman(num) {
-        var romanMatrix = [
+        let romanMatrix = [
         [1000, 'M'],
         [900, 'CM'],
         [500, 'D'],
@@ -73,18 +73,17 @@
         [4, 'IV'],
         [1, 'I']];
 
-        for (let i in romanMatrix) {
+        let i = 0;
+        for (i in romanMatrix) {
           if (num >= romanMatrix[i][0]) {
             return romanMatrix[i][1] + convertToRoman(num - romanMatrix[i][0]);
           }
         }
       }
 
-      mapboxgl.accessToken =
-        "pk.eyJ1IjoiZGJsaXNhcmQiLCJhIjoiY2xnNWQ2NzBqMDFvMTNtbWpjcnF2N3BwayJ9.A_cJHb58qSAoYjKyBcz6yw";
+      mapboxgl.accessToken = "pk.eyJ1IjoiZGJsaXNhcmQiLCJhIjoiY2xnNWQ2NzBqMDFvMTNtbWpjcnF2N3BwayJ9.A_cJHb58qSAoYjKyBcz6yw";
       const map = new mapboxgl.Map({
         container: "map",
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
         style: "mapbox://styles/dblisard/clhh3kx1s002m01r5445thn5d",
         maxBounds: [
           [-10, 27], // Southwest coordinates [longitude, latitude]
@@ -103,9 +102,10 @@
           data: "Shipwrecks.geojson",
           cluster: true,
           clusterMaxZoom: 14, // Max zoom to cluster points on
-          clusterRadius: 25, // Radius of each cluster when clustering points
+          clusterRadius: 28, // Radius of each cluster when clustering points
         });
 
+        // add clustered points
         map.addLayer({
           id: "clusters",
           type: "circle",
@@ -127,6 +127,7 @@
           },
         });
 
+        // add clustered point counts
         map.addLayer({
           id: "cluster-count",
           type: "symbol",
@@ -140,7 +141,7 @@
           paint: {"text-color": "#fff"}
         });
 
-
+        // add unclustered points 
         map.addLayer({
           id: "unclustered-point",
           type: "circle",
@@ -154,77 +155,44 @@
           },
         });
 
-        // Create a geographically static HTML marker
-        //const markerElement = document.createElement('div');
-        //markerElement.className = 'title';
-        //markerElement.innerHTML = 'Ancient Shipwrecks<br>of the<br>mediterranean';
-
-        //new mapboxgl.Marker(markerElement)
-        //  .setLngLat([22, 46.25])
-        //  .addTo(map);
-
-
         // inspect a cluster on click
         map.on("click", "clusters", (e) => {
           const features = map.queryRenderedFeatures(e.point, {
             layers: ["clusters"],
           });
           const clusterId = features[0].properties.cluster_id;
-          map
-            .getSource("shipwrecks")
-            .getClusterExpansionZoom(clusterId, (err, zoom) => {
-              if (err) return;
+          map.getSource("shipwrecks").getClusterExpansionZoom(clusterId, (err, zoom) => {
+            if (err) return;
 
-              map.easeTo({
-                center: features[0].geometry.coordinates,
-                zoom: zoom,
-              });
+            map.easeTo({
+              center: features[0].geometry.coordinates,
+              zoom: zoom,
             });
+          });
         });
 
-        // When a click event occurs on a feature in
-        // the unclustered-point layer, open a popup at
-        // the location of the feature, with
-        // description HTML from its properties.
+        // on click open popup with geojson properties 
         map.on("click", "unclustered-point", (e) => {
           let coordinates = e.features[0].geometry.coordinates.slice();
           let name = e.features[0].properties.Name || "N/A";
-          let cargo = e.features[0].properties["Other cargo"];
-          let comments = e.features[0].properties.Comments;
           let period = e.features[0].properties.Period || "N/A";
-          let dating = e.features[0].properties.Dating || "N/A";
-          let firstdate = e.features[0].properties["Earliest date"];
-          let lastdate = e.features[0].properties["Latest date"];
           let depth = e.features[0].properties.Depth || "N/A";
 
 
-          if (comments == "") {
-            if(cargo == ""){
-              comments = "No Details";
-            }
-          }
+          //Set Description
+          let cargo = e.features[0].properties["Other cargo"];
+          let comments = e.features[0].properties.Comments;
+          if (comments === cargo) { comments = "No Details"; }
 
-          if (firstdate < 0) {
-            firstdate = firstdate.slice(1) + " BCE"
-          } else {
-            firstdate = firstdate + " CE"
-          }          
-          if (lastdate < 0) {
-            lastdate = lastdate.slice(1) + " BCE"
-          } else {
-            lastdate = lastdate + " CE"
-          }
-
-          // Ensure that if the map is zoomed out such that
-          // multiple copies of the feature are visible, the
-          // popup appears over the copy being pointed to.
-          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-          }
+          //Set dating
+          let firstdate = e.features[0].properties["Earliest date"];
+          let lastdate = e.features[0].properties["Latest date"];
+          firstdate = firstdate < 0 ? firstdate.slice(1) + " BCE" : firstdate + " CE";
+          lastdate = lastdate < 0 ? lastdate.slice(1) + " BCE" : lastdate + " CE";
 
           new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(`<b>${name} Wreck</b><br>
+            .setHTML(`<strong>${name} Wreck</strong><br>
                       Period: ${period}<br> 
                       Dating: ${firstdate} to ${lastdate}<br>
                       Depth: ${depth}<br>
@@ -233,16 +201,11 @@
             .addTo(map);
         });
 
-        map.on("mouseenter", "clusters", () => {
+        // handle mouse hover 
+        map.on("mouseenter", ["clusters", "unclustered-point"], () => {
           map.getCanvas().style.cursor = "pointer";
         });
-        map.on("mouseleave", "clusters", () => {
-          map.getCanvas().style.cursor = "";
-        });
-        map.on("mouseenter", "unclustered-point", () => {
-          map.getCanvas().style.cursor = "pointer";
-        });
-        map.on("mouseleave", "unclustered-point", () => {
+        map.on("mouseleave", ["clusters", "unclustered-point"], () => {
           map.getCanvas().style.cursor = "";
         });
       });
