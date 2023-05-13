@@ -46,7 +46,6 @@
         font-size: 20px;
       }
       .mapboxgl-popup-content {
-        min-width: 300px;
         align-self: center;
         font-family: 'Open Sans', sans-serif;
       }
@@ -74,7 +73,7 @@
         padding-right: 24px;
         padding-left: 24px;
         overflow-y: scroll;
-        height: calc(100% - 425px);
+        height: calc(100% - 434px);
         width: 325px;
         bottom: 0;
       }
@@ -88,14 +87,7 @@
         bottom: 0;
       }
 
-      .unselectable {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
+
 
       ::-webkit-scrollbar {
         width: 8px;
@@ -105,18 +97,37 @@
         background-color: #ddddddc7;
       }
 
+      .name-text {
+        display: flex;
+        align-items: center;
+        overflow-wrap: break-word;
+        gap: 10px; /* Adjust the spacing between name and button as needed */
+        inline-size: 288px; /* Set the desired width */
+      }
+      .name {
+        overflow-wrap: break-word;
+        flex-grow: 1;
+      }
+
+      .unselectable {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
 
     </style>
   </head>
   <body>
 
     <!--Infobar-->
-
     <div id="infobar" class="position-fixed bg-light shadow-lg p-4">
         <div  class="h1 title unselectable">Ancient<br>Mediterranean<br>Shipwrecks<i class="unselectable anchor fa-solid fa-anchor"></i></div>
-        <div id="content-box" class="" style="font-family: 'Open Sans'">Click on Shipwreck locations for more information!</div>
+        <div id="content-box" class="" style="font-family: 'Open Sans'">Click on a Shipwreck location for more information!</div>
         <div id="comment-box" class="" style="font-family: 'Open Sans';"></div>
-        <div id="sources" class="position-fixed" style="font-family: 'Open Sans';">Sources:<br>Strauss, J. (2013). Shipwrecks Database. Version 1.0.<br>Accessed (5/13/23): oxrep.classics.ox.ac.uk<br>/databases/shipwrecks_database/</div>
+        <div id="sources" class="position-fixed" style="font-family: 'Open Sans';"><hr>Sources:<br>Strauss, J. (2013). Shipwrecks Database. Version 1.0.<br>Accessed (5/13/23): oxrep.classics.ox.ac.uk<br>/databases/shipwrecks_database/</div>
     </div>
 
     <!--Map-->
@@ -156,6 +167,7 @@
         });
       }
 
+
       mapboxgl.accessToken = "pk.eyJ1IjoiZGJsaXNhcmQiLCJhIjoiY2xnNWQ2NzBqMDFvMTNtbWpjcnF2N3BwayJ9.A_cJHb58qSAoYjKyBcz6yw";
       const map = new mapboxgl.Map({
         container: "map",
@@ -164,21 +176,29 @@
           [-10, 27], // Southwest coordinates [longitude, latitude]
           [40, 50]   // Northeast coordinates [longitude, latitude]
         ],
-        center: [16.633617, 38.408870],
+        center: [-10.099190, 40.181034],
         zoom: 2,
         minZoom: 4,
         pitchWithRotate: false, // Disable 3D mode
         dragRotate: false // Disable map rotation
       });
+      map.addControl(new mapboxgl.NavigationControl({
+        showCompass: false,
+      }));
 
+
+            
       map.on("load", () => {
+        
+        // add source
         map.addSource("shipwrecks", {
           type: "geojson",
           data: "Shipwrecks.geojson",
           cluster: true,
-          clusterMaxZoom: 14, // Max zoom to cluster points on
-          clusterRadius: 26, // Radius of each cluster when clustering points
+          clusterMaxZoom: 6, // Max zoom to cluster points on
+          clusterRadius: 24, // Radius of each cluster when clustering points
         });
+
 
         // add clustered points
         map.addLayer({
@@ -188,15 +208,8 @@
           filter: ["has", "point_count"],
           paint: {
             "circle-color": "#66023C",
-            "circle-radius": [
-              "step",
-              ["get", "point_count"],
-              10,
-              10,
-              15,
-              15,
-              20,
-            ],
+            "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
+            "circle-radius": ["step", ["get", "point_count"], 10, 10, 15, 15, 20],
             "circle-stroke-width": 2,
             "circle-stroke-color": "#ffffff",
           },
@@ -210,8 +223,8 @@
           filter: ["has", "point_count"],
           layout: {
             "text-field": ["get", "point_count"],
-            "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-            "text-size": 16,
+            "text-font": ["Open Sans ExtraBold", "Arial Unicode MS Bold"],
+            "text-size": 15,
           },
           paint: {"text-color": "#fff"}
         });
@@ -224,11 +237,63 @@
           filter: ["!", ["has", "point_count"]],
           paint: {
             "circle-color": "#66023C",
-            "circle-radius": 5,
+            "circle-radius": 6,
             "circle-stroke-width": 2,
             "circle-stroke-color": "#ffffff",
+            "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
           },
         });
+
+
+
+        // change color on hover
+        let hoveredStateId = null;
+        map.on("mousemove", "unclustered-point", (e) => {
+          if (e.features.length > 0) {
+            if (hoveredStateId !== null) {
+              map.setFeatureState(
+                { source: "shipwrecks", id: hoveredStateId },
+                { hover: false }
+              );
+            }
+            hoveredStateId = e.features[0].id;
+            console.log(hoveredStateId)
+            map.setFeatureState(
+              { source: "shipwrecks", id: hoveredStateId },
+              { hover: true }
+            );
+          }
+        });
+
+        // Change color on hover for clusters layer
+        map.on("mousemove", "clusters", (e) => {
+          if (e.features.length > 0) {
+            if (hoveredStateId !== null) {
+              map.setFeatureState(
+                { source: "shipwrecks", id: hoveredStateId },
+                { hover: false }
+              );
+            }
+            hoveredStateId = e.features[0].id;
+            map.setFeatureState(
+              { source: "shipwrecks", id: hoveredStateId },
+              { hover: true }
+            );
+          }
+        });
+
+        // Return to original color on mouse leave
+        map.on("mouseleave", ["unclustered-point", "clusters"], () => {
+          if (hoveredStateId !== null) {
+            map.setFeatureState(
+              { source: "shipwrecks", id: hoveredStateId },
+              { hover: false }
+            );
+          }
+          hoveredStateId = null;
+        });
+
+
 
         // inspect a cluster on click
         map.on("click", "clusters", (e) => {
@@ -238,7 +303,6 @@
           const clusterId = features[0].properties.cluster_id;
           map.getSource("shipwrecks").getClusterExpansionZoom(clusterId, (err, zoom) => {
             if (err) return;
-
             map.easeTo({
               center: features[0].geometry.coordinates,
               zoom: zoom,
@@ -249,8 +313,7 @@
 
         // on click open popup with geojson properties 
         map.on("click", "unclustered-point", (e) => {
-          
-
+          //Get base information
           let name = e.features[0].properties.Name || "N/A";
           let period = e.features[0].properties.Period || "N/A";
 
@@ -263,8 +326,9 @@
           //Get description
           let cargo = e.features[0].properties["Other cargo"];
           let hull = e.features[0].properties["Hull remains"];
+          let paraphernalia = e.features[0].properties["Shipboard paraphernalia"];
           let comments = e.features[0].properties.Comments;
-          if ((comments === cargo) === hull) { comments = "No Details"; }
+          if (!comments && !cargo && !hull && !paraphernalia) { comments = "No Details"; }
 
           //Get dating
           let firstdate = e.features[0].properties["Earliest date"];
@@ -272,18 +336,31 @@
           firstdate = firstdate < 0 ? firstdate.slice(1) + " BCE" : firstdate + " CE";
           lastdate = lastdate < 0 ? lastdate.slice(1) + " BCE" : lastdate + " CE";
 
+          new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: true,
+            closeOnMove: false,
+          })
+            .setLngLat(coordinates)
+            .setHTML(
+            `<strong>${name} Wreck</strong>`
+            )
+            .addTo(map);
+
           //Set HTML
           document.getElementById("content-box").innerHTML = 
-            `<strong>${name} Wreck</strong>  
-            <button id="flyButton" class="btn" onClick="flyToLocation(${long}, ${lat})"><i class="fa-solid fa-magnifying-glass"></i></button><br>
-            Period: ${period}<br> 
-            Dating: ${firstdate} to ${lastdate}<br>
-            <hr>
-            `
-          document.getElementById("comment-box").innerHTML = `${comments} ${cargo} ${hull}`;
+            `<div class="name-text">
+              <div class="name"><strong>${name} Wreck</strong></div>
+              <button id="flyButton" class="btn" onClick="flyToLocation(${long}, ${lat})">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </div>
+            <span>Period: ${period}</span><br>
+            <span>Dating: ${firstdate} to ${lastdate}</span><br>
+            <hr>`
+
+          document.getElementById("comment-box").innerHTML = `${comments} ${cargo} ${hull} ${paraphernalia}`;
         });
-
-
 
         // handle mouse hover 
         map.on("mouseenter", ["clusters", "unclustered-point"], () => {
@@ -294,5 +371,11 @@
         });
       });
     </script>
+
+    <div class="row">
+      <div class="row">
+      
+      </div>
+    </div>
   </body>
 </html>
