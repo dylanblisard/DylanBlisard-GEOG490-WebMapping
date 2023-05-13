@@ -348,6 +348,8 @@
             .addTo(map);
 
           //Set HTML
+          let wordsToBold = ["amphora", "amphorae", "marble", "bronze"];
+          let pattern = new RegExp("\\b(?!" + "Bronze Age" + ")(" + wordsToBold.join("|") + ")\\b", "gi");
           document.getElementById("content-box").innerHTML = 
             `<div class="name-text">
               <div class="name"><strong>${name} Wreck</strong></div>
@@ -359,7 +361,10 @@
             <span>Dating: ${firstdate} to ${lastdate}</span><br>
             <hr>`
 
-          document.getElementById("comment-box").innerHTML = `${comments} ${cargo} ${hull} ${paraphernalia}`;
+          document.getElementById("comment-box").innerHTML = `${comments.replace(pattern, '<strong>$&</strong>')} 
+                                                              ${cargo.replace(pattern, '<strong>$&</strong>')} 
+                                                              ${hull.replace(pattern, '<strong>$&</strong>')} 
+                                                              ${paraphernalia.replace(pattern, '<strong>$&</strong>')}`;
         });
 
         // handle mouse hover 
