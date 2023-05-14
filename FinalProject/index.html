@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>Shipwrecks</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="images/x-icon" href="/images/anchor-solid (3).svg">
+    <link rel="icon" type="images/x-icon" href="/images/anchor-solid.svg">
 
     <!--Mapbox-->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet"/>
@@ -66,14 +66,14 @@
         padding-bottom: 0px;
         padding-right: 24px;
         padding-left: 24px;
-        padding-top: 24px;
+        padding-top: 120px;
       }
       #comment-box {
         padding-top: 0px;
         padding-right: 24px;
         padding-left: 24px;
         overflow-y: scroll;
-        height: calc(100% - 434px);
+        height: calc(100% - 530px);
         width: 325px;
         bottom: 0;
       }
@@ -118,13 +118,18 @@
         user-select: none;
       }
 
+      .water {
+        width: 385px;
+        padding-top: 75px;
+        translate: -10px;
+      }
     </style>
   </head>
   <body>
 
     <!--Infobar-->
     <div id="infobar" class="position-fixed bg-light shadow-lg p-4">
-        <div  class="h1 title unselectable">Ancient<br>Mediterranean<br>Shipwrecks<i class="unselectable anchor fa-solid fa-anchor"></i></div>
+        <div class="h1 title unselectable">Ancient<br>Mediterranean<br>Shipwrecks<i class="unselectable anchor fa-solid fa-anchor"></i><img class="water start-0 position-absolute z-n1" src="/images/sea-waves.svg" alt=""></img></div>
         <div id="content-box" class="" style="font-family: 'Open Sans'">Click on a Shipwreck location for more information!</div>
         <div id="comment-box" class="" style="font-family: 'Open Sans';"></div>
         <div id="sources" class="position-fixed" style="font-family: 'Open Sans';"><hr>Sources:<br>Strauss, J. (2013). Shipwrecks Database. Version 1.0.<br>Accessed (5/13/23): oxrep.classics.ox.ac.uk<br>/databases/shipwrecks_database/</div>
@@ -348,7 +353,7 @@
             .addTo(map);
 
           //Set HTML
-          let wordsToBold = ["amphora", "amphorae", "marble", "bronze"];
+          let wordsToBold = ["amphora", "amphorae", "marble", "coins", "bronze", "silver", "gold", "ivory", "copper"];
           let pattern = new RegExp("\\b(?!" + "Bronze Age" + ")(" + wordsToBold.join("|") + ")\\b", "gi");
           document.getElementById("content-box").innerHTML = 
             `<div class="name-text">
