@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>Shipwrecks</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="images/x-icon" href="/images/anchor-solid.svg">
+    <link rel="icon" type="images/x-icon" href="images/anchor-solid.svg">
 
     <!--Mapbox-->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet"/>
@@ -41,12 +41,13 @@
         font-size: 45px;
         width: 375px;
       }
-      .mapboxgl-popup-close-button {
-        color: #66023C;
-        font-size: 20px;
-      }
       .mapboxgl-popup-content {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        height: fit-content;
         align-self: center;
+        text-align: center;
+        font-size: 12px;
         font-family: 'Open Sans', sans-serif;
       }
 
@@ -63,21 +64,24 @@
         position: relative;
       }
       #content-box {
+        font-family: 'Open Sans';
         padding-bottom: 0px;
         padding-right: 24px;
         padding-left: 24px;
         padding-top: 120px;
       }
       #comment-box {
+        font-family: 'Open Sans';
         padding-top: 0px;
         padding-right: 24px;
         padding-left: 24px;
         overflow-y: scroll;
-        height: calc(100% - 530px);
+        height: calc(100% - 525px);
         width: 325px;
         bottom: 0;
       }
       #sources {
+        font-family: 'Open Sans';
         padding-top: 24px;
         padding-bottom: 24px;
         padding-right: 0px;
@@ -129,10 +133,10 @@
 
     <!--Infobar-->
     <div id="infobar" class="position-fixed bg-light shadow-lg p-4">
-        <div class="h1 title unselectable">Ancient<br>Mediterranean<br>Shipwrecks<i class="unselectable anchor fa-solid fa-anchor"></i><img class="water start-0 position-absolute z-n1" src="/images/sea-waves.svg" alt=""></img></div>
-        <div id="content-box" class="" style="font-family: 'Open Sans'">Click on a Shipwreck location for more information!</div>
-        <div id="comment-box" class="" style="font-family: 'Open Sans';"></div>
-        <div id="sources" class="position-fixed" style="font-family: 'Open Sans';"><hr>Sources:<br>Strauss, J. (2013). Shipwrecks Database. Version 1.0.<br>Accessed (5/13/23): oxrep.classics.ox.ac.uk<br>/databases/shipwrecks_database/</div>
+        <div class="h1 title unselectable">Ancient<br>Mediterranean<br>Shipwrecks<i class="unselectable anchor fa-solid fa-anchor"></i><img class="water start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg" alt=""></img></div>
+        <div id="content-box" class=""><strong>Click on a Shipwreck location for more information!</strong></div>
+        <div id="comment-box" class=""></div>
+        <div id="sources" class="position-fixed"><hr>Sources:<br>Strauss, J. (2013). Shipwrecks Database. Version 1.0.<br>Accessed (5/13/23): oxrep.classics.ox.ac.uk<br>/databases/shipwrecks_database/</div>
     </div>
 
     <!--Map-->
