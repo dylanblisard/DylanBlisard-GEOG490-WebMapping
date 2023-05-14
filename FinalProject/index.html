@@ -49,6 +49,12 @@
         text-align: center;
         font-size: 12px;
         font-family: 'Open Sans', sans-serif;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
       .anchor {
@@ -182,8 +188,8 @@
         container: "map",
         style: "mapbox://styles/dblisard/clhh3kx1s002m01r5445thn5d",
         maxBounds: [
-          [-10, 27], // Southwest coordinates [longitude, latitude]
-          [40, 50]   // Northeast coordinates [longitude, latitude]
+          [-15, 27], // Southwest coordinates [longitude, latitude]
+          [42, 50]   // Northeast coordinates [longitude, latitude]
         ],
         center: [-10.099190, 40.181034],
         zoom: 2,
@@ -357,7 +363,7 @@
             .addTo(map);
 
           //Set HTML
-          let wordsToBold = ["amphora", "amphorae", "marble", "coins", "bronze", "silver", "gold", "ivory", "copper"];
+          let wordsToBold = ["amphora", "amphorae", "marble", "coins", "coin", "bronze", "silver", "gold", "ivory", "tin", "lead", "copper", "statue", "statues", "ingot", "ingots", "sculpture", "sculptures"];
           let pattern = new RegExp("\\b(?!" + "Bronze Age" + ")(" + wordsToBold.join("|") + ")\\b", "gi");
           document.getElementById("content-box").innerHTML = 
             `<div class="name-text">
