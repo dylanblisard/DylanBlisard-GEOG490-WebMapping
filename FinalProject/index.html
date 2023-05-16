@@ -117,7 +117,7 @@
       }
 
 
-      #comment-box {
+      .comment-box {
         font-family: 'Open Sans';
         padding-top: 0px;
         padding-right: 24px;
@@ -127,6 +127,17 @@
         width: 325px;
         bottom: 0;
       }
+      .comment-box-start {
+        font-family: 'Open Sans';
+        padding-top: 0px;
+        padding-right: 24px;
+        padding-left: 24px;
+        overflow-y: scroll;
+        height: calc(100% - 438px);
+        width: 325px;
+        bottom: 0;
+      }
+
       ::-webkit-scrollbar {
         width: 8px;
       }
@@ -182,20 +193,21 @@
 
         <div class="h1 title unselectable">
           Ancient<br>Mediterranean<br>Shipwrecks
-          <i class="unselectable anchor fa-solid fa-anchor"></i>
+          <i class="anchor fa-solid fa-anchor"></i>
           <img class="water start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg" style="padding-top: 25px;"></img>
           <img class="water-2 start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg" style="padding-top: 25px;"></img>
           <img class="water start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg"></img>
           <img class="water-2 start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg"></img>
         </div>
 
-        <div id="content-box"><strong>Click on Shipwreck locations for more information!</strong><br><br>
+        <div id="content-box"></div>
+
+        <div id="comment-box" class="comment-box-start">
+          <strong>Click on Shipwreck locations for more information!</strong><br><br>
           This map shows shipwrecks that sunk before 1500 CE utlizing the Oxford Roman Economy Project Shipwreck database. 
           Only ancient debris assumed to have come from a shipwreck rather than those lost or dumped overboard have been included.<br><br>
           Coordinates should not be taken as accurate at a fine scale as precise locations are not revealed by excavators to prevent pillaging.
         </div>
-
-        <div id="comment-box"></div>
 
         <div id="sources" class="position-fixed">
           <hr>Sources:<br>Strauss, J. (2013). Shipwrecks Database. Version 1.0.<br>Accessed (5/13/23): <a class="link-secondary" target="_blank" href="http://oxrep.classics.ox.ac.uk/databases/shipwrecks_database/">oxrep.classics.ox.ac.uk<br>/databases/shipwrecks_database/<br></a> 
@@ -422,6 +434,8 @@
         <span>Dating: ${firstdate} to ${lastdate}</span><br>
         <hr>`
 
+        document.getElementById("comment-box").classList.remove('comment-box-start');
+        document.getElementById("comment-box").classList.add('comment-box');
         document.getElementById("comment-box").innerHTML = `${comments.replace(pattern, '<strong>$&</strong>')} 
                                                             ${cargo.replace(pattern, '<strong>$&</strong>')} 
                                                             ${hull.replace(pattern, '<strong>$&</strong>')} 
