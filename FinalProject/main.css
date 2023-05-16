@@ -1,110 +1,108 @@
 body {
-    margin: 0;
-    padding: 0;
-  }
-  #map {
-    position: absolute;
-    top: 0px;
-    bottom: 0;
-    width: 100%;
-  }
+  margin: 0;
+  padding: 0;
+}
+#map {
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  width: 100%;
+}
 
-  .title {
-    font-family: 'Suez One', Arial, sans-serif;
-    color: #66023C;
-    font-size: 45px;
-    width: 375px;
-    overflow: hidden;
-  }
-  .mapboxgl-popup-content {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    height: fit-content;
-    align-self: center;
-    text-align: center;
-    font-size: 12px;
-    font-family: 'Open Sans', sans-serif;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
+.title {
+  font-family: "Suez One", Arial, sans-serif;
+  color: #66023c;
+  font-size: 45px;
+  width: 375px;
+  overflow: hidden;
+}
+.mapboxgl-popup-content {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: fit-content;
+  align-self: center;
+  text-align: center;
+  font-size: 12px;
+  font-family: "Open Sans", sans-serif;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
-  .anchor {
-    padding-left: 14px;
-    width: 1px;
-  }
+.anchor {
+  padding-left: 14px;
+  width: 1px;
+}
 
-  #infobar {
-    height: 100%;
-    width: 375px;
-    margin: 0;
-    z-index: 1;
-    position: relative;
-  }
-  #content-box {
-    font-family: 'Open Sans';
-    padding-bottom: 0px;
-    padding-right: 24px;
-    padding-left: 24px;
-    padding-top: 120px;
-  }
-  #comment-box {
-    font-family: 'Open Sans';
-    padding-top: 0px;
-    padding-right: 24px;
-    padding-left: 24px;
-    overflow-y: scroll;
-    height: calc(100% - 525px);
-    width: 325px;
-    bottom: 0;
-  }
-  #sources {
-    font-family: 'Open Sans';
-    padding-top: 24px;
-    padding-bottom: 24px;
-    padding-right: 0px;
-    padding-left: 15px;
-    color: #c0c0c0;
-    font-size: small;
-    bottom: 0;
-  }
+#infobar {
+  height: 100%;
+  width: 375px;
+  margin: 0;
+  z-index: 1;
+  position: relative;
+}
+#content-box {
+  font-family: "Open Sans";
+  padding-bottom: 0px;
+  padding-right: 24px;
+  padding-left: 24px;
+  padding-top: 120px;
+}
+#comment-box {
+  font-family: "Open Sans";
+  padding-top: 0px;
+  padding-right: 24px;
+  padding-left: 24px;
+  overflow-y: scroll;
+  height: calc(100% - 525px);
+  width: 325px;
+  bottom: 0;
+}
+#sources {
+  font-family: "Open Sans";
+  padding-top: 24px;
+  padding-bottom: 24px;
+  padding-right: 0px;
+  padding-left: 15px;
+  color: #c0c0c0;
+  font-size: small;
+  bottom: 0;
+}
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ddddddc7;
+}
 
+.name-text {
+  display: flex;
+  align-items: center;
+  overflow-wrap: break-word;
+  gap: 10px; /* Adjust the spacing between name and button as needed */
+  inline-size: 288px; /* Set the desired width */
+}
+.name {
+  overflow-wrap: break-word;
+  flex-grow: 1;
+}
 
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #ddddddc7;
-  }
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
-  .name-text {
-    display: flex;
-    align-items: center;
-    overflow-wrap: break-word;
-    gap: 10px; /* Adjust the spacing between name and button as needed */
-    inline-size: 288px; /* Set the desired width */
-  }
-  .name {
-    overflow-wrap: break-word;
-    flex-grow: 1;
-  }
-
-  .unselectable {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
-  .water {
-    width: 385px;
-    padding-top: 75px;
-    translate: -10px;
-  }
+.water {
+  width: 385px;
+  padding-top: 75px;
+  translate: -10px;
+}
