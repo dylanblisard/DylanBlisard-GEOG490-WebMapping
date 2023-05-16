@@ -193,7 +193,6 @@
     <script>
       let currentPopup = null;
       function flyToLocation(long, lat, name) {
-        if (currentPopup) { return } // Don't add new popup if already open
         map.flyTo({
             center: [long, lat],
             zoom: 9,
@@ -201,6 +200,7 @@
             curve: 1
         });
 
+        if (currentPopup) { return } // Don't add new popup if already open
         const popup = new mapboxgl.Popup({
                         closeButton: false,
                         closeOnClick: true,
