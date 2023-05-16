@@ -61,6 +61,7 @@
         margin: 0;
         z-index: 1;
         position: relative;
+        overflow: hidden;
       }
       .title {
         font-family: 'Suez One', Arial, sans-serif;
@@ -70,13 +71,29 @@
         overflow: hidden;
       }
       .anchor {
-        padding-left: 14px;
-        width: 1px;
+        padding-left: 6px;
       }
       .water {
-        width: 385px;
+        width: 100%;
         padding-top: 75px;
-        translate: -10px;
+        translate: 0px;
+        animation: animate 35s linear infinite;
+      }
+      .water-2 {
+        width: 100%;
+        padding-top: 75px;
+        translate: -374px;
+        animation: animate 35s linear infinite;
+      }
+
+      @keyframes animate {
+        0% {
+          transform: translateX(0%);
+        }
+
+        100% {
+          transform: translateX(100%);
+        }
       }
 
 
@@ -129,6 +146,20 @@
         font-size: small;
         bottom: 0;
       }
+      a:visited {
+        color: #c0c0c0 !important;
+      }
+      a:active {
+        color: #727272 !important;
+      }
+      a {
+        color: #c0c0c0 !important;
+        text-decoration-color: #c0c0c0 !important;
+      }
+      a:hover {
+        color: #727272 !important;
+        text-decoration-color: #727272 !important;
+      }
 
       /* helper classes*/
       .unselectable {
@@ -140,22 +171,7 @@
         user-select: none;
       }
 
-      a:visited {
-        color: #c0c0c0 !important;
-      }
 
-      a:active {
-        color: #727272 !important;
-      }
-      a {
-        color: #c0c0c0 !important;
-        text-decoration-color: #c0c0c0 !important;
-      }
-
-      a:hover {
-        color: #727272 !important;
-        text-decoration-color: #727272 !important;
-      }
     </style>
     
   </head>
@@ -167,7 +183,10 @@
         <div class="h1 title unselectable">
           Ancient<br>Mediterranean<br>Shipwrecks
           <i class="unselectable anchor fa-solid fa-anchor"></i>
-          <img class="water start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg" alt=""></img>
+          <img class="water start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg" style="padding-top: 25px;"></img>
+          <img class="water-2 start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg" style="padding-top: 25px;"></img>
+          <img class="water start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg"></img>
+          <img class="water-2 start-0 position-absolute z-n1 unselectable" src="images/sea-waves.svg"></img>
         </div>
 
         <div id="content-box"><strong>Click on Shipwreck locations for more information!</strong><br><br>
