@@ -30,7 +30,7 @@ const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/dblisard/clhnyb0dw000t01pv7axmagwy",
   maxBounds: [
-    [-15, 27], // Southwest coordinates [longitude, latitude]
+    [-10, 27], // Southwest coordinates [longitude, latitude]
     [42, 50]   // Northeast coordinates [longitude, latitude]
   ],
     center: [-10.099190, 40.181034],

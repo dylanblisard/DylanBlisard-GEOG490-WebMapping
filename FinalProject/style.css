@@ -8,8 +8,14 @@ body {
     position: absolute;
     top: 0px;
     bottom: 0;
-    width: 100%;
+    width: calc(100% - 375px);
+    left: 375px;
   }
+
+  .mapboxgl-popup-tip {
+    opacity: 0%;
+  }
+
   .mapboxgl-popup-content {
     padding-top: 5px;
     padding-bottom: 5px;
