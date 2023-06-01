@@ -212,8 +212,8 @@ map.on("click", "unclustered-point", (e) => {
   <span>Dating: ${firstdate} to ${lastdate}</span><br>
   <hr>`
 
-  document.getElementById("comment-box").classList.remove('comment-box-start');
-  document.getElementById("comment-box").classList.add('comment-box');
+  document.getElementById("content-start").classList.remove('scrollio-start');
+  document.getElementById("content-start").classList.add('scrollio');
   document.getElementById("comment-box").innerHTML = `${comments.replace(pattern, '<strong>$&</strong>')} 
                                                       ${cargo.replace(pattern, '<strong>$&</strong>')} 
                                                       ${hull.replace(pattern, '<strong>$&</strong>')} 
