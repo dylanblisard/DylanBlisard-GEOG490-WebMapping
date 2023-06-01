@@ -77,6 +77,7 @@ map.addLayer({
   "text-field": ["get", "point_count"],
   "text-font": ["Open Sans ExtraBold", "Arial Unicode MS Bold"],
   "text-size": 15,
+  'icon-allow-overlap': true
   },
   paint: {"text-color": "#fff"}
 });

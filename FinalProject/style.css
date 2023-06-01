@@ -41,6 +41,7 @@ body {
     font-size: 45px;
     width: 375px;
     overflow: hidden;
+    height: 300px;
   }
   .anchor {
     padding-left: 6px;
@@ -74,7 +75,7 @@ body {
     padding-bottom: 0px;
     padding-right: 24px;
     padding-left: 24px;
-    padding-top: 120px;
+    padding-top: 0px;
   }
   .name-text {
     display: flex;
@@ -88,6 +89,14 @@ body {
     flex-grow: 1;
   }
 
+  .scrollio {
+    font-family: 'Open Sans';
+    padding-top: 0px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 325px;
+    height: calc(100% - 320px);
+  }
 
   .comment-box {
     font-family: 'Open Sans';
@@ -95,9 +104,7 @@ body {
     padding-right: 24px;
     padding-left: 24px;
     overflow-y: scroll;
-    height: calc(100% - 558px);
     width: 325px;
-    bottom: 0;
   }
   .comment-box-start {
     font-family: 'Open Sans';
@@ -105,7 +112,6 @@ body {
     padding-right: 24px;
     padding-left: 24px;
     overflow-y: scroll;
-    height: calc(100% - 438px);
     width: 325px;
     bottom: 0;
   }
