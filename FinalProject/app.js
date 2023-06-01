@@ -51,7 +51,21 @@ map.addSource("shipwrecks", {
   data: "Shipwrecks.geojson",
   cluster: true,
   clusterMaxZoom: 6, // Max zoom to cluster points on
-  clusterRadius: 20, // Radius of each cluster when clustering points
+  clusterRadius: 22, // Radius of each cluster when clustering points
+});
+
+map.addLayer({
+  id: "unclustered-point",
+  type: "circle",
+  source: "shipwrecks",
+  filter: ["!", ["has", "point_count"]],
+  paint: {
+  "circle-color": "#66023C",
+  "circle-radius": 6,
+  "circle-stroke-width": 2,
+  "circle-stroke-color": "#ffffff",
+  "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
+  },
 });
 
 map.addLayer({
@@ -61,8 +75,8 @@ map.addLayer({
   filter: ["has", "point_count"],
   paint: {
   "circle-color": "#66023C",
-  "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.85],
-  "circle-radius": ["step", ["get", "point_count"], 10, 10, 15, 15, 20],
+  "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
+  "circle-radius": ["step", ["get", "point_count"], 10, 10, 16, 16, 22],
   "circle-stroke-width": 2,
   "circle-stroke-color": "#ffffff",
   },
@@ -77,24 +91,10 @@ map.addLayer({
   "text-field": ["get", "point_count"],
   "text-font": ["Open Sans ExtraBold", "Arial Unicode MS Bold"],
   "text-size": 15,
-  'icon-allow-overlap': true
   },
   paint: {"text-color": "#fff"}
 });
 
-map.addLayer({
-  id: "unclustered-point",
-  type: "circle",
-  source: "shipwrecks",
-  filter: ["!", ["has", "point_count"]],
-  paint: {
-  "circle-color": "#66023C",
-  "circle-radius": 6,
-  "circle-stroke-width": 2,
-  "circle-stroke-color": "#ffffff",
-  "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.85],
-  },
-});
 
 
 
