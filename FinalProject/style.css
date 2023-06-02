@@ -54,13 +54,13 @@ body {
   }
   .water {
     width: 100%;
-    padding-top: 75px;
+    padding-top: 180px;
     translate: 0px;
     animation: animate 35s linear infinite;
   }
   .water-2 {
     width: 100%;
-    padding-top: 75px;
+    padding-top: 180px;
     translate: -374px;
     animation: animate 35s linear infinite;
   }
@@ -174,4 +174,16 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+
+  #random-button {
+    text-align: left; 
+    border: 0; 
+    background-color: rgba(0,0,0,0); 
+    color: #66023C;
+    transition: color 0.3s;
+  }
+
+  #random-button:hover {
+    color: #001a33;
   }

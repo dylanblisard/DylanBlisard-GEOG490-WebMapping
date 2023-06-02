@@ -228,3 +228,103 @@ map.on("click", "unclustered-point", (e) => {
       map.getCanvas().style.cursor = "";
   });
 });
+
+
+
+
+// Function to load GeoJSON data
+function loadGeoJSON(callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.overrideMimeType("application/json");
+  xhr.open("GET", "Shipwrecks.geojson", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      callback(JSON.parse(xhr.responseText));
+    }
+  };
+  xhr.send(null);
+}
+
+// Function to get a random feature
+function getRandomFeature(geojson) {
+  var features = geojson.features;
+  var randomIndex = Math.floor(Math.random() * features.length);
+  var randomFeature = features[randomIndex];
+  return randomFeature;
+}
+
+// Usage
+loadGeoJSON(function (geojson) {
+  var randomFeature = getRandomFeature(geojson);
+  console.log(randomFeature);
+});
+
+
+
+function flyToRandom() {
+  loadGeoJSON(function (geojson) {
+    var randomFeature = getRandomFeature(geojson);
+    console.log(randomFeature);
+
+    //Get base information
+    let name = randomFeature.properties.Name || "N/A";
+    let period = randomFeature.properties.Period || "N/A";
+
+    //Get coordinates
+    let coordinates = randomFeature.geometry.coordinates.slice();
+    let [long, lat] = coordinates.toString().split(",");
+    long = (+long).toFixed(3);
+    lat = (+lat).toFixed(3);
+
+    //Get description
+    let cargo = randomFeature.properties["Other cargo"];
+    let hull = randomFeature.properties["Hull remains"];
+    let paraphernalia = randomFeature.properties["Shipboard paraphernalia"];
+    let comments = randomFeature.properties.Comments;
+    if (!comments && !cargo && !hull && !paraphernalia) { comments = "No Details"; }
+
+    //Get dating
+    let firstdate = randomFeature.properties["Earliest date"];
+    let lastdate = randomFeature.properties["Latest date"];
+    firstdate = firstdate < 0 ? firstdate.slice(1) + " BCE" : firstdate + " CE";
+    lastdate = lastdate < 0 ? lastdate.slice(1) + " BCE" : lastdate + " CE";
+
+  
+    new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: true,
+    closeOnMove: false,
+    })
+    .setLngLat(coordinates)
+    .setHTML(`<strong>${name} Wreck</strong>`)
+    .addTo(map);
+
+    //Set HTML
+    let wordsToBold = ["amphora", "amphorae", "marble", "coins", "coin", "bronze", "silver", "gold", "ivory", "tin", "lead", "copper", "statue", "statues", "ingot", "ingots", "sculpture", "sculptures"];
+    let pattern = new RegExp("\\b(?!" + "Bronze Age" + ")(" + wordsToBold.join("|") + ")\\b", "gi");
+    document.getElementById("content-box").innerHTML = 
+    `<div class="name-text">
+        <div class="name"><strong>${name} Wreck</strong></div>
+        <button id="flyButton" class="btn" onClick="flyToLocation(${long}, ${lat}, '${name}')">
+        <img draggable=false class="unselectable" style="width: 20px; height: 24px;" src="images/zoom-in.svg" alt=""></img>
+        </button>
+    </div>
+    <span>Period: ${period}</span><br>
+    <span>Dating: ${firstdate} to ${lastdate}</span><br>
+    <hr>`
+
+    document.getElementById("content-start").classList.remove('scrollio-start');
+    document.getElementById("content-start").classList.add('scrollio');
+    document.getElementById("comment-box").innerHTML = `${comments.replace(pattern, '<strong>$&</strong>')} 
+                                                        ${cargo.replace(pattern, '<strong>$&</strong>')} 
+                                                        ${hull.replace(pattern, '<strong>$&</strong>')} 
+                                                        ${paraphernalia.replace(pattern, '<strong>$&</strong>')}`;
+
+    flyToLocation(long, lat, name)
+    const popup = document.getElementsByClassName('mapboxgl-popup');
+    if (popup.length) {
+      for (let i=0; i < popup.length; i++)
+        popup[i].remove();
+    }
+  });
+}
