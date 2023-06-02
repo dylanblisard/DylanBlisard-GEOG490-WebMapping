@@ -51,7 +51,7 @@ map.addSource("shipwrecks", {
   data: "Shipwrecks.geojson",
   cluster: true,
   clusterMaxZoom: 6, // Max zoom to cluster points on
-  clusterRadius: 22, // Radius of each cluster when clustering points
+  clusterRadius: 24, // Radius of each cluster when clustering points
 });
 
 map.addLayer({
@@ -76,7 +76,7 @@ map.addLayer({
   paint: {
   "circle-color": "#66023C",
   "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
-  "circle-radius": ["step", ["get", "point_count"], 10, 10, 16, 16, 22],
+  "circle-radius": ["step", ["get", "point_count"], 10, 10, 15, 15, 20],
   "circle-stroke-width": 2,
   "circle-stroke-color": "#ffffff",
   },
