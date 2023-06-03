@@ -1,3 +1,102 @@
+/* DEFINE FUNCTIONS */
+function setInfo(feature) {
+  //Get base information
+  let name = feature.properties.Name || "N/A";
+  let period = feature.properties.Period || "N/A";
+
+  //Get dating
+  let firstdate = feature.properties["Earliest date"];
+  let lastdate = feature.properties["Latest date"];
+  firstdate = firstdate < 0 ? firstdate.slice(1) + " BCE" : firstdate + " CE";
+  lastdate = lastdate < 0 ? lastdate.slice(1) + " BCE" : lastdate + " CE";
+
+  //Get coordinates
+  let coordinates = feature.geometry.coordinates.slice();
+  let [long, lat] = coordinates.toString().split(",");
+  long = (+long).toFixed(3);
+  lat = (+lat).toFixed(3);
+
+  //Get description
+  let cargo = feature.properties["Other cargo"];
+  let hull = feature.properties["Hull remains"];
+  let paraphernalia = feature.properties["Shipboard paraphernalia"];
+  let comments = feature.properties["Comments"];
+  if (!comments && !cargo && !hull && !paraphernalia) { comments = "No Details"; }
+
+  //Set HTML
+  document.getElementById("content-box").innerHTML = 
+  `<div class="name-text">
+      <div class="name"><strong>${name} Wreck</strong></div>
+      <button id="flyButton" class="btn" onClick="flyToLocation(${long}, ${lat}, '${name}')">
+      <img draggable=false class="unselectable" style="width: 20px; height: 24px;" src="images/zoom-in.svg" alt=""></img>
+      </button>
+  </div>
+  <span>Period: ${period}</span><br>
+  <span>Dating: ${firstdate} to ${lastdate}</span><br>
+  <hr>`
+
+  document.getElementById("content-start").classList.remove('scrollio-start');
+  document.getElementById("content-start").classList.add('scrollio');
+
+  let wordsToBold = ["amphora", "amphorae", "marble", "coins", "coin", "bronze", "silver", "gold", "ivory", "tin", "lead", "copper", "statue", "statues", "ingot", "ingots", "sculpture", "sculptures"];
+  let pattern = new RegExp("\\b(?!" + "Bronze Age" + ")(" + wordsToBold.join("|") + ")\\b", "gi");
+  document.getElementById("comment-box").innerHTML = `${comments.replace(pattern, '<strong>$&</strong>')} 
+                                                      ${cargo.replace(pattern, '<strong>$&</strong>')} 
+                                                      ${hull.replace(pattern, '<strong>$&</strong>')} 
+                                                      ${paraphernalia.replace(pattern, '<strong>$&</strong>')}`;                                     
+
+  //Create new popup
+  new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: true,
+    closeOnMove: false,
+    })
+    .setLngLat(coordinates)
+    .setHTML(`<strong>${name} Wreck</strong>`)
+    .addTo(map);
+  
+  //Return attributes
+  return [long, lat, name];
+}
+
+//Load GeoJSON data
+function loadGeoJSON(callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.overrideMimeType("application/json");
+  xhr.open("GET", "Shipwrecks.geojson", true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      callback(JSON.parse(xhr.responseText));
+    }
+  };
+  xhr.send(null);
+}
+
+//Get a random feature
+function getRandomFeature(geojson) {
+  var features = geojson.features;
+  var randomIndex = Math.floor(Math.random() * features.length);
+  return features[randomIndex];
+}
+
+//Fly to random point
+function flyToRandom() {
+  loadGeoJSON(function (geojson) {
+    var randomFeature = getRandomFeature(geojson);
+    let info = setInfo(randomFeature);
+    flyToLocation(info[0], info[1], info[2]);
+
+    //Remove any other popups
+    const popup = document.getElementsByClassName('mapboxgl-popup');
+    if (popup.length) {
+      for (let i=0; i < popup.length; i++)
+        popup[i].remove();
+    }
+  });
+}
+
+
+
 let currentPopup = null;
 function flyToLocation(long, lat, name) {
   map.flyTo({
@@ -46,54 +145,54 @@ map.addControl(new mapboxgl.NavigationControl({
 
   
 map.on("load", () => {
-map.addSource("shipwrecks", {
-  type: "geojson",
-  data: "Shipwrecks.geojson",
-  cluster: true,
-  clusterMaxZoom: 6, // Max zoom to cluster points on
-  clusterRadius: 24, // Radius of each cluster when clustering points
-});
+  map.addSource("shipwrecks", {
+    type: "geojson",
+    data: "Shipwrecks.geojson",
+    cluster: true,
+    clusterMaxZoom: 6, // Max zoom to cluster points on
+    clusterRadius: 24, // Radius of each cluster when clustering points
+  });
 
-map.addLayer({
-  id: "unclustered-point",
-  type: "circle",
-  source: "shipwrecks",
-  filter: ["!", ["has", "point_count"]],
-  paint: {
-  "circle-color": "#66023C",
-  "circle-radius": 6,
-  "circle-stroke-width": 2,
-  "circle-stroke-color": "#ffffff",
-  "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
-  },
-});
+  map.addLayer({
+    id: "unclustered-point",
+    type: "circle",
+    source: "shipwrecks",
+    filter: ["!", ["has", "point_count"]],
+    paint: {
+    "circle-color": "#66023C",
+    "circle-radius": 6,
+    "circle-stroke-width": 2,
+    "circle-stroke-color": "#ffffff",
+    "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
+    },
+  });
 
-map.addLayer({
-  id: "clusters",
-  type: "circle",
-  source: "shipwrecks",
-  filter: ["has", "point_count"],
-  paint: {
-  "circle-color": "#66023C",
-  "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
-  "circle-radius": ["step", ["get", "point_count"], 10, 10, 15, 15, 20],
-  "circle-stroke-width": 2,
-  "circle-stroke-color": "#ffffff",
-  },
-});
+  map.addLayer({
+    id: "clusters",
+    type: "circle",
+    source: "shipwrecks",
+    filter: ["has", "point_count"],
+    paint: {
+    "circle-color": "#66023C",
+    "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
+    "circle-radius": ["step", ["get", "point_count"], 10, 10, 15, 15, 20],
+    "circle-stroke-width": 2,
+    "circle-stroke-color": "#ffffff",
+    },
+  });
 
-map.addLayer({
-  id: "cluster-count",
-  type: "symbol",
-  source: "shipwrecks",
-  filter: ["has", "point_count"],
-  layout: {
-  "text-field": ["get", "point_count"],
-  "text-font": ["Open Sans ExtraBold", "Arial Unicode MS Bold"],
-  "text-size": 15,
-  },
-  paint: {"text-color": "#fff"}
-});
+  map.addLayer({
+    id: "cluster-count",
+    type: "symbol",
+    source: "shipwrecks",
+    filter: ["has", "point_count"],
+    layout: {
+    "text-field": ["get", "point_count"],
+    "text-font": ["Open Sans ExtraBold", "Arial Unicode MS Bold"],
+    "text-size": 15,
+    },
+    paint: {"text-color": "#fff"}
+  });
 
 
 
@@ -162,62 +261,9 @@ map.on("click", "clusters", (e) => {
 });
 
 
-// on click open popup with geojson properties 
-map.on("click", "unclustered-point", (e) => {
-  //Get base information
-  let name = e.features[0].properties.Name || "N/A";
-  let period = e.features[0].properties.Period || "N/A";
-
-  //Get coordinates
-  let coordinates = e.features[0].geometry.coordinates.slice();
-  let [long, lat] = coordinates.toString().split(",");
-  long = (+long).toFixed(3);
-  lat = (+lat).toFixed(3);
-
-  //Get description
-  let cargo = e.features[0].properties["Other cargo"];
-  let hull = e.features[0].properties["Hull remains"];
-  let paraphernalia = e.features[0].properties["Shipboard paraphernalia"];
-  let comments = e.features[0].properties.Comments;
-  if (!comments && !cargo && !hull && !paraphernalia) { comments = "No Details"; }
-
-  //Get dating
-  let firstdate = e.features[0].properties["Earliest date"];
-  let lastdate = e.features[0].properties["Latest date"];
-  firstdate = firstdate < 0 ? firstdate.slice(1) + " BCE" : firstdate + " CE";
-  lastdate = lastdate < 0 ? lastdate.slice(1) + " BCE" : lastdate + " CE";
-
-  new mapboxgl.Popup({
-  closeButton: false,
-  closeOnClick: true,
-  closeOnMove: false,
-  })
-  .setLngLat(coordinates)
-  .setHTML(
-  `<strong>${name} Wreck</strong>`
-  )
-  .addTo(map);
-
-  //Set HTML
-  let wordsToBold = ["amphora", "amphorae", "marble", "coins", "coin", "bronze", "silver", "gold", "ivory", "tin", "lead", "copper", "statue", "statues", "ingot", "ingots", "sculpture", "sculptures"];
-  let pattern = new RegExp("\\b(?!" + "Bronze Age" + ")(" + wordsToBold.join("|") + ")\\b", "gi");
-  document.getElementById("content-box").innerHTML = 
-  `<div class="name-text">
-      <div class="name"><strong>${name} Wreck</strong></div>
-      <button id="flyButton" class="btn" onClick="flyToLocation(${long}, ${lat}, '${name}')">
-      <img draggable=false class="unselectable" style="width: 20px; height: 24px;" src="images/zoom-in.svg" alt=""></img>
-      </button>
-  </div>
-  <span>Period: ${period}</span><br>
-  <span>Dating: ${firstdate} to ${lastdate}</span><br>
-  <hr>`
-
-  document.getElementById("content-start").classList.remove('scrollio-start');
-  document.getElementById("content-start").classList.add('scrollio');
-  document.getElementById("comment-box").innerHTML = `${comments.replace(pattern, '<strong>$&</strong>')} 
-                                                      ${cargo.replace(pattern, '<strong>$&</strong>')} 
-                                                      ${hull.replace(pattern, '<strong>$&</strong>')} 
-                                                      ${paraphernalia.replace(pattern, '<strong>$&</strong>')}`;
+  // on click open popup with geojson properties 
+  map.on("click", "unclustered-point", (e) => {
+    setInfo(e.features[0]);
   });
 
   // handle mouse hover 
@@ -232,99 +278,4 @@ map.on("click", "unclustered-point", (e) => {
 
 
 
-// Function to load GeoJSON data
-function loadGeoJSON(callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.overrideMimeType("application/json");
-  xhr.open("GET", "Shipwrecks.geojson", true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      callback(JSON.parse(xhr.responseText));
-    }
-  };
-  xhr.send(null);
-}
 
-// Function to get a random feature
-function getRandomFeature(geojson) {
-  var features = geojson.features;
-  var randomIndex = Math.floor(Math.random() * features.length);
-  var randomFeature = features[randomIndex];
-  return randomFeature;
-}
-
-// Usage
-loadGeoJSON(function (geojson) {
-  var randomFeature = getRandomFeature(geojson);
-  console.log(randomFeature);
-});
-
-
-
-function flyToRandom() {
-  loadGeoJSON(function (geojson) {
-    var randomFeature = getRandomFeature(geojson);
-    console.log(randomFeature);
-
-    //Get base information
-    let name = randomFeature.properties.Name || "N/A";
-    let period = randomFeature.properties.Period || "N/A";
-
-    //Get coordinates
-    let coordinates = randomFeature.geometry.coordinates.slice();
-    let [long, lat] = coordinates.toString().split(",");
-    long = (+long).toFixed(3);
-    lat = (+lat).toFixed(3);
-
-    //Get description
-    let cargo = randomFeature.properties["Other cargo"];
-    let hull = randomFeature.properties["Hull remains"];
-    let paraphernalia = randomFeature.properties["Shipboard paraphernalia"];
-    let comments = randomFeature.properties.Comments;
-    if (!comments && !cargo && !hull && !paraphernalia) { comments = "No Details"; }
-
-    //Get dating
-    let firstdate = randomFeature.properties["Earliest date"];
-    let lastdate = randomFeature.properties["Latest date"];
-    firstdate = firstdate < 0 ? firstdate.slice(1) + " BCE" : firstdate + " CE";
-    lastdate = lastdate < 0 ? lastdate.slice(1) + " BCE" : lastdate + " CE";
-
-  
-    new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: true,
-    closeOnMove: false,
-    })
-    .setLngLat(coordinates)
-    .setHTML(`<strong>${name} Wreck</strong>`)
-    .addTo(map);
-
-    //Set HTML
-    let wordsToBold = ["amphora", "amphorae", "marble", "coins", "coin", "bronze", "silver", "gold", "ivory", "tin", "lead", "copper", "statue", "statues", "ingot", "ingots", "sculpture", "sculptures"];
-    let pattern = new RegExp("\\b(?!" + "Bronze Age" + ")(" + wordsToBold.join("|") + ")\\b", "gi");
-    document.getElementById("content-box").innerHTML = 
-    `<div class="name-text">
-        <div class="name"><strong>${name} Wreck</strong></div>
-        <button id="flyButton" class="btn" onClick="flyToLocation(${long}, ${lat}, '${name}')">
-        <img draggable=false class="unselectable" style="width: 20px; height: 24px;" src="images/zoom-in.svg" alt=""></img>
-        </button>
-    </div>
-    <span>Period: ${period}</span><br>
-    <span>Dating: ${firstdate} to ${lastdate}</span><br>
-    <hr>`
-
-    document.getElementById("content-start").classList.remove('scrollio-start');
-    document.getElementById("content-start").classList.add('scrollio');
-    document.getElementById("comment-box").innerHTML = `${comments.replace(pattern, '<strong>$&</strong>')} 
-                                                        ${cargo.replace(pattern, '<strong>$&</strong>')} 
-                                                        ${hull.replace(pattern, '<strong>$&</strong>')} 
-                                                        ${paraphernalia.replace(pattern, '<strong>$&</strong>')}`;
-
-    flyToLocation(long, lat, name)
-    const popup = document.getElementsByClassName('mapboxgl-popup');
-    if (popup.length) {
-      for (let i=0; i < popup.length; i++)
-        popup[i].remove();
-    }
-  });
-}
