@@ -101,7 +101,7 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   width: 325px;
-  height: calc(100% - 400px);
+  height: calc(100% - 415px);
 }
 
 .scrollio-start {
