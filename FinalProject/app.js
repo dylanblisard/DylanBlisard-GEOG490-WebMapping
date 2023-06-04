@@ -1,8 +1,11 @@
 /* DEFINE FUNCTIONS */
+
+let popup = null;
 function setInfo(feature) {
   //Get base information
   let name = feature.properties.Name || "N/A";
   let period = feature.properties.Period || "N/A";
+  let link = feature.properties.Link || "N/A";
 
   //Get dating
   let firstdate = feature.properties["Earliest date"];
@@ -38,15 +41,27 @@ function setInfo(feature) {
   document.getElementById("content-start").classList.remove('scrollio-start');
   document.getElementById("content-start").classList.add('scrollio');
 
+
+  //Bold keywords
   let wordsToBold = ["amphora", "amphorae", "marble", "coins", "coin", "bronze", "silver", "gold", "ivory", "tin", "lead", "copper", "statue", "statues", "ingot", "ingots", "sculpture", "sculptures"];
   let pattern = new RegExp("\\b(?!" + "Bronze Age" + ")(" + wordsToBold.join("|") + ")\\b", "gi");
-  document.getElementById("comment-box").innerHTML = `${comments.replace(pattern, '<strong>$&</strong>')} 
-                                                      ${cargo.replace(pattern, '<strong>$&</strong>')} 
-                                                      ${hull.replace(pattern, '<strong>$&</strong>')} 
-                                                      ${paraphernalia.replace(pattern, '<strong>$&</strong>')}`;                                     
+  let bodyText = `${comments} ${cargo} ${hull} ${paraphernalia}`;
+
+  for (let i = 0; i < wordsToBold.length; i++) {
+    bodyText = bodyText.replace(pattern, (match) => { return `<strong>${match}</strong>` });
+  }
+
+  //Add Wiki link if available
+  if (link !== "N/A") {
+    bodyText += `<br><br>Learn More: <a class="wiki-link" target="_blank" href=${link}>Wikipedia.com</a><br><br>`
+  }
+
+  //Set Body text
+  document.getElementById("comment-box").innerHTML = bodyText;                              
 
   //Create new popup
-  new mapboxgl.Popup({
+  if (popup !== null) { popup.remove() }
+  popup = new mapboxgl.Popup({
     closeButton: false,
     closeOnClick: true,
     closeOnMove: false,
@@ -85,19 +100,10 @@ function flyToRandom() {
     var randomFeature = getRandomFeature(geojson);
     let info = setInfo(randomFeature);
     flyToLocation(info[0], info[1], info[2]);
-
-    //Remove any other popups
-    const popup = document.getElementsByClassName('mapboxgl-popup');
-    if (popup.length) {
-      for (let i=0; i < popup.length; i++)
-        popup[i].remove();
-    }
   });
 }
 
-
-
-let currentPopup = null;
+//Fly to determined point
 function flyToLocation(long, lat, name) {
   map.flyTo({
       center: [long, lat],
@@ -106,21 +112,16 @@ function flyToLocation(long, lat, name) {
       curve: 1
   });
 
-  if (currentPopup) { return } // Don't add new popup if already open
-  const popup = new mapboxgl.Popup({
-                  closeButton: false,
-                  closeOnClick: true,
-                  closeOnMove: false,
-                  })
-                  .setLngLat([long, lat])
-                  .setHTML(
-                  `<strong>${name} Wreck</strong>`
-                  )
-                  .addTo(map);
-  currentPopup = popup;
-  popup.on('close', () => {
-      currentPopup = null; // Clear the reference when the popup is closed
-  });
+  //Create new popup
+  if (popup !== null) { popup.remove() }
+  popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: true,
+    closeOnMove: false,
+    })
+    .setLngLat([long, lat])
+    .setHTML(`<strong>${name} Wreck</strong>`)
+    .addTo(map);
 }
 
 
@@ -150,7 +151,7 @@ map.on("load", () => {
     data: "Shipwrecks.geojson",
     cluster: true,
     clusterMaxZoom: 6, // Max zoom to cluster points on
-    clusterRadius: 24, // Radius of each cluster when clustering points
+    clusterRadius: 30, // Radius of each cluster when clustering points
   });
 
   map.addLayer({
@@ -175,7 +176,7 @@ map.on("load", () => {
     paint: {
     "circle-color": "#66023C",
     "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
-    "circle-radius": ["step", ["get", "point_count"], 10, 10, 15, 15, 20],
+    "circle-radius": ["step", ["get", "point_count"], 15, 10, 20, 15, 20, 25, 30],
     "circle-stroke-width": 2,
     "circle-stroke-color": "#ffffff",
     },
@@ -187,11 +188,65 @@ map.on("load", () => {
     source: "shipwrecks",
     filter: ["has", "point_count"],
     layout: {
-    "text-field": ["get", "point_count"],
-    "text-font": ["Open Sans ExtraBold", "Arial Unicode MS Bold"],
-    "text-size": 15,
+      "text-field": [
+        "match",
+        ["get", "point_count"],
+        1, "I",
+        2, "II",
+        3, "III",
+        4, "IV",
+        5, "V",
+        6, "VI",
+        7, "VII",
+        8, "VIII",
+        9, "IX",
+        10, "X",
+        11, "XI",
+        12, "XII",
+        13, "XIII",
+        14, "XIV",
+        15, "XV",
+        16, "XVI",
+        17, "XVII",
+        18, "XVIII",
+        19, "XIX",
+        20, "XX",
+        21, "XXI",
+        22, "XXII",
+        23, "XXIII",
+        24, "XXIV",
+        25, "XXV",
+        26, "XXVI",
+        27, "XXVII",
+        28, "XXVIII",
+        29, "XXIX",
+        30, "XXX",
+        31, "XXXI",
+        32, "XXXII",
+        33, "XXXIII",
+        34, "XXXIV",
+        35, "XXXV",
+        36, "XXXVI",
+        37, "XXXVII",
+        38, "XXXVIII",
+        39, "XXXIX",
+        40, "XL",
+        41, "XLI",
+        42, "XLII",
+        43, "XLIII",
+        44, "XLIV",
+        45, "XLV",
+        46, "XLVI",
+        47, "XLVII",
+        48, "XLVIII",
+        49, "XLIX",
+        50, "L",
+        "Other"
+      ],
+      "text-font": ["Open Sans ExtraBold", "Arial Unicode MS Bold"],
+      "text-size": 13,
     },
-    paint: {"text-color": "#fff"}
+    paint: { "text-color": "#fff" }
   });
 
 
@@ -242,6 +297,8 @@ map.on("mouseleave", ["unclustered-point", "clusters"], () => {
   }
   hoveredStateId = null;
 });
+
+
 
 
 

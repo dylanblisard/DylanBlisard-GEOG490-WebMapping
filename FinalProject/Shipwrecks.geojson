@@ -127,7 +127,8 @@
         "Shipboard paraphernalia": "Cooking ware, tools, weapons and over 130 pan-balance weights (2 pans were found in a wooden case); saucer lamps, cylinder seals; amber beads and at least 200 flattened blue faience beads. A pair of  intricate wooden (boxwood) writing-boards set with ivory hinges from the Near East.",
         "Ship equipment": "24 anchors",
         "Estimated tonnage": "",
-        "Amphora type": ""
+        "Amphora type": "",
+        "Link": "https://en.wikipedia.org/wiki/Uluburun_shipwreck"
       },
       "geometry": { "type": "Point", "coordinates": [29.6878, 36.13086] },
       "id": 3
@@ -169,7 +170,8 @@
         "Shipboard paraphernalia": "A set of smith's tools including a small anvil, hammers, a whetstone, stones to polish metals and a bronze block pierced with holes to make metal thread, suggesting that a smith was sailing on the ship. Other possessions include a lamp and a pair of stone mortars made in Syria, as were 4 scarabs and a cylinder seal. There were also nearly 60 graduated stone weights of Near Eastern origin, including Egyptian qedets and Syrian and Canaanite nesefs and shekels. A bronze bracelet was found in a jar of  glass beads. Knucklebones.",
         "Ship equipment": "A stone anchor of Near Eastern type, was found about 100m away from the main site in 1994.",
         "Estimated tonnage": "",
-        "Amphora type": ""
+        "Amphora type": "",
+        "Link": "https://en.wikipedia.org/wiki/Cape_Gelidonya"
       },
       "geometry": { "type": "Point", "coordinates": [30.4, 36.18333] },
       "id": 4
@@ -661,7 +663,7 @@
         "Place of origin": "Africa",
         "Place of destination": "Sicily/Rome?",
         "Reference": "G. Lattanzi, Navi e Citta Sommerse (2007), 126                 http://www.regione.sicilia.it/beniculturali/archeologiasottomarina/prod_editoriali/op_scras/Opuscolo%20SCRAS-Pag%2023_31.pdf",
-        "Comments": "Discovered in 1997 and excavated in 1999, a cargo of ceramics on baord a ship that may have sunk due to an onboard fire.",
+        "Comments": "Discovered in 1997 and excavated in 1999, a cargo of ceramics on board a ship that may have sunk due to an onboard fire.",
         "Amphorae": "TRUE",
         "Marble": "FALSE",
         "Columns etc": "FALSE",
@@ -1760,7 +1762,7 @@
         "Sarcophagi": "FALSE",
         "Blocks": "FALSE",
         "Marble type": "",
-        "Other cargo": "Roof tiles.",
+        "Other cargo": "",
         "Hull remains": "",
         "Shipboard paraphernalia": "",
         "Ship equipment": "",
@@ -1933,7 +1935,8 @@
         "Shipboard paraphernalia": "Lamps, oinochoe, Attic black glaze pottery, coarse ware, mortar, whetstones, a wooden bowl, an awl and a sheep or goat bone. Four fragmentary black-glaze bolsals. Metal objects include lead fishing weights and cake ingots and lead and silver nuggets.",
         "Ship equipment": "Several anchors : a wooden shank, wooden arms with bronze teeth and a wooden stock with lead cores. Other lead anchors may have been looted prior to excavation. A wooden bobbin toggle, with rigging, attaching lines to clews and luffs.",
         "Estimated tonnage": "",
-        "Amphora type": ""
+        "Amphora type": "",
+        "Link": "https://en.wikipedia.org/wiki/Head_of_a_Philosopher"
       },
       "geometry": { "type": "Point", "coordinates": [15.66101, 38.23972] },
       "id": 46
@@ -1975,7 +1978,8 @@
         "Shipboard paraphernalia": "The head of a double axe, an axe-adze, a tool for removing nails, a chisel, (all in concretion). The remains of a large metal cauldron, an intact ceramic jug and a terracotta herm figurine. A worn and corroded bronze coin, probably Greek.",
         "Ship equipment": "An anchor (in concretion, which with two lead anchor collars shows the transition from the use of wooden anchors to the introduction of iron anchors), a lead sounding weight, and an elaborate iron concretion that probably represents an important part of the ship's equipment.",
         "Estimated tonnage": "",
-        "Amphora type": ""
+        "Amphora type": "",
+        "Link": "https://en.wikipedia.org/wiki/Kizilburun_shipwreck"
       },
       "geometry": { "type": "Point", "coordinates": [26.24256, 38.26075] },
       "id": 47
@@ -2089,7 +2093,7 @@
         "Place of origin": "",
         "Place of destination": "",
         "Reference": "B.P.  Foley and M.C. Hansson, Journal of Archaeological Science  35 (2008), 1169\u221276; Eleutheros Typos, Ta Nea 05/11/2007                           AR 51 (2004\u22122005), 90; AR 52 (2005\u22122006), 97    D. Sakellariou et al, IJNA 36 (2007), 365-381    B. Foley et al, Hesperia 78 (2009), 269-305                                                                                         http://www.whoi.edu/sbl/liteSite.do?litesiteid=2740&articleId=5698",
-        "Comments": "A C4th BC wreck found in the straits between Chios and Oinousses during a 2004 sonar survey by HCMR scientists and Ephorate archaeologists. . Over 400 concentrated artefacts form a longitudinal body of high reflectivity which rises to by 1.5-2m above the sea floor.",
+        "Comments": "A C4th BC wreck found in the straits between Chios and Oinousses during a 2004 sonar survey by HCMR scientists and Ephorate archaeologists. Over 400 concentrated artefacts form a longitudinal body of high reflectivity which rises to by 1.5-2m above the sea floor.",
         "Amphorae": "TRUE",
         "Marble": "FALSE",
         "Columns etc": "FALSE",
@@ -2731,7 +2735,8 @@
         "Shipboard paraphernalia": "An elegant pitcher, a chytra and a number of metal objects.",
         "Ship equipment": "2 lead cross bars from an anchor",
         "Estimated tonnage": "120",
-        "Amphora type": ""
+        "Amphora type": "",
+        "Link": "https://en.wikipedia.org/wiki/Alonnisos_shipwreck"
       },
       "geometry": { "type": "Point", "coordinates": [23.98452, 39.23583] },
       "id": 65
@@ -6331,7 +6336,7 @@
         "Place of origin": "",
         "Place of destination": "",
         "Reference": "H. Bernard and F. Cibecchini, Bilan Scientifique 2004, 92-93; Bilan Scientifique 2005, 99; F. Cibecchini et al, Archaeologia Maritima Mediterranea 2006, 13-41",
-        "Comments": "Discovered in 1962 and re-examined in the early 2000s, the site covers an area of 65m sq. NB Date change since Parker.",
+        "Comments": "Discovered in 1962 and re-examined in the early 2000s, the site covers an area of 65m sq.",
         "Amphorae": "TRUE",
         "Marble": "FALSE",
         "Columns etc": "FALSE",
@@ -7717,7 +7722,7 @@
         "Place of origin": "Lusitania",
         "Place of destination": "",
         "Reference": "Bilan Scientifique 2003, 96; Bilan Scientifique  2004, 87; Bilan Scientifique  2005, 88",
-        "Comments": "Scattered sherds from Spanish amphorae.",
+        "Comments": "Scattered shards from Spanish amphorae.",
         "Amphorae": "TRUE",
         "Marble": "FALSE",
         "Columns etc": "FALSE",
@@ -8438,7 +8443,7 @@
         "Sarcophagi": "FALSE",
         "Blocks": "FALSE",
         "Marble type": "",
-        "Other cargo": "Ceramics?",
+        "Other cargo": "",
         "Hull remains": "",
         "Shipboard paraphernalia": "",
         "Ship equipment": "",
@@ -9251,7 +9256,7 @@
       "properties": {
         "Wreck ID": "8670",
         "Strauss ID": "0",
-        "Name": "Le Grand Ribaud F (A??)",
+        "Name": "Le Grand Ribaud F",
         "Parker Number": "",
         "Sea area": "Western Mediterranean",
         "Country": "France",
@@ -9397,7 +9402,7 @@
         "Place of origin": "Marseilles",
         "Place of destination": "",
         "Reference": "B. Dangreaux, Bilan Scientifique 1993, 44-45; Bilan Scientifique 1994, 47; Bilan Scientifique 1995, 51-52; Bilan Scientifique 1996, 89-90; Bilan Scientifique 1997, 57-59",
-        "Comments": "NB Date change since Parker. A local ship carrying amphorae and Massiliot ceramics.",
+        "Comments": "A local ship carrying amphorae and Massiliot ceramics.",
         "Amphorae": "TRUE",
         "Marble": "FALSE",
         "Columns etc": "FALSE",
@@ -12512,7 +12517,7 @@
         "Sarcophagi": "FALSE",
         "Blocks": "FALSE",
         "Marble type": "",
-        "Other cargo": "Hundreds of iron ingots of differing sizes in 4 rows and at least 2 layers in concreted masses, some stamped. A piece of ceramic?",
+        "Other cargo": "Hundreds of iron ingots of differing sizes in 4 rows and at least 2 layers in concreted masses, some stamped.",
         "Hull remains": "A few planks, copper nails.",
         "Shipboard paraphernalia": "A Mayence type sword which dates the wreck to C1st AD.",
         "Ship equipment": "",
@@ -15079,7 +15084,8 @@
           "Shipboard paraphernalia": "",
           "Ship equipment": "",
           "Estimated tonnage": "0",
-          "Amphora type": ""
+          "Amphora type": "",
+          "Link": "https://en.wikipedia.org/wiki/Antikythera_wreck"
         },
         "geometry": { "type": "Point", "coordinates": [23.3078, 35.8897] },
         "id": 359
