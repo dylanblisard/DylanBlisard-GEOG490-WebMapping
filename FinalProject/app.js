@@ -176,7 +176,7 @@ map.on("load", () => {
     paint: {
     "circle-color": "#66023C",
     "circle-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.75],
-    "circle-radius": ["step", ["get", "point_count"], 15, 10, 20, 15, 20, 25, 30],
+    "circle-radius": ["step", ["get", "point_count"], 12, 5, 15, 10, 20, 15, 20, 25, 32],
     "circle-stroke-width": 2,
     "circle-stroke-color": "#ffffff",
     },
