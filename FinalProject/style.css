@@ -74,8 +74,6 @@ body {
   }
 }
 
-
-
 #content-box {
   font-family: "Open Sans";
   padding-bottom: 0px;
@@ -95,6 +93,7 @@ body {
   flex-grow: 1;
 }
 
+
 .scrollio {
   font-family: "Open Sans";
   padding-top: 0px;
@@ -103,7 +102,6 @@ body {
   width: 325px;
   height: calc(100% - 410px);
 }
-
 .scrollio-start {
   font-family: "Open Sans";
   padding-top: 0px;
@@ -112,6 +110,7 @@ body {
   width: 325px;
   height: calc(100% - 280px);
 }
+
 
 .comment-box {
   font-family: "Open Sans";
@@ -131,7 +130,6 @@ body {
   bottom: 0;
   height: calc(100% - 300px);
 }
-
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -139,6 +137,7 @@ body {
   border-radius: 10px;
   background-color: #ddddddc7;
 }
+
 
 #sources {
   font-family: "Open Sans";
@@ -165,16 +164,6 @@ a:hover {
   text-decoration-color: #727272 !important;
 }
 
-/* helper classes*/
-.unselectable {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 #random-button {
   text-align: left;
   border: 0;
@@ -184,10 +173,10 @@ a:hover {
 }
 
 #random-button:hover {
-  color: #357794;
+  color: #479fc5;
 }
 #random-button:active {
-  color: black;
+  color: #66023c;
 }
 
 .wiki-link:visited {
@@ -203,4 +192,15 @@ a:hover {
 .wiki-link:hover {
   color: #727272 !important;
   text-decoration-color: #727272 !important;
+}
+
+
+/* helper classes*/
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
