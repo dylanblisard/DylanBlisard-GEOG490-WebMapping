@@ -1,4 +1,7 @@
 /* DEFINE FUNCTIONS */
+
+
+
 let popup = null;
 function setInfo(feature) {
   //Get base information
@@ -45,7 +48,6 @@ function setInfo(feature) {
   let wordsToBold = ["amphora", "amphorae", "marble", "coins", "coin", "bronze", "silver", "gold", "ivory", "tin", "lead", "copper", "statue", "statues", "ingot", "ingots", "sculpture", "sculptures"];
   let pattern = new RegExp("\\b(?!" + "Bronze Age" + ")(" + wordsToBold.join("|") + ")\\b", "gi");
   let bodyText = `${comments} ${cargo} ${hull} ${paraphernalia}`;
-
   for (let i = 0; i < wordsToBold.length; i++) {
     bodyText = bodyText.replace(pattern, (match) => { return `<strong>${match}</strong>` });
   }
@@ -73,6 +75,8 @@ function setInfo(feature) {
   return [long, lat, name];
 }
 
+
+
 //Load GeoJSON data
 function loadGeoJSON(callback) {
   var xhr = new XMLHttpRequest();
@@ -86,12 +90,16 @@ function loadGeoJSON(callback) {
   xhr.send(null);
 }
 
+
+
 //Get a random feature
 function getRandomFeature(geojson) {
   var features = geojson.features;
   var randomIndex = Math.floor(Math.random() * features.length);
   return features[randomIndex];
 }
+
+
 
 //Fly to random point
 function flyToRandom() {
@@ -101,6 +109,8 @@ function flyToRandom() {
     flyToLocation(info[0], info[1], info[2]);
   });
 }
+
+
 
 //Fly to determined point
 function flyToLocation(long, lat, name) {
@@ -124,6 +134,9 @@ function flyToLocation(long, lat, name) {
 }
 
 
+
+
+
 mapboxgl.accessToken = "pk.eyJ1IjoiZGJsaXNhcmQiLCJhIjoiY2xnNWQ2NzBqMDFvMTNtbWpjcnF2N3BwayJ9.A_cJHb58qSAoYjKyBcz6yw";
 const map = new mapboxgl.Map({
   container: "map",
@@ -143,7 +156,9 @@ map.addControl(new mapboxgl.NavigationControl({
 }));
 
 
-  
+
+
+
 map.on("load", () => {
   map.addSource("shipwrecks", {
     type: "geojson",
@@ -251,71 +266,71 @@ map.on("load", () => {
 
 
 
-// change color on hover
-let hoveredStateId = null;
-map.on("mousemove", "unclustered-point", (e) => {
-  if (e.features.length > 0) {
-  if (hoveredStateId !== null) {
-      map.setFeatureState(
-      { source: "shipwrecks", id: hoveredStateId },
-      { hover: false }
-      );
-  }
-  hoveredStateId = e.features[0].id;
-  map.setFeatureState(
-      { source: "shipwrecks", id: hoveredStateId },
-      { hover: true }
-  );
-  }
-});
 
-// Change color on hover for clusters layer
-map.on("mousemove", "clusters", (e) => {
-  if (e.features.length > 0) {
-  if (hoveredStateId !== null) {
-      map.setFeatureState(
-      { source: "shipwrecks", id: hoveredStateId },
-      { hover: false }
-      );
-  }
-  hoveredStateId = e.features[0].id;
-  map.setFeatureState(
-      { source: "shipwrecks", id: hoveredStateId },
-      { hover: true }
-  );
-  }
-});
-
-// Return to original color on mouse leave
-map.on("mouseleave", ["unclustered-point", "clusters"], () => {
-  if (hoveredStateId !== null) {
-  map.setFeatureState(
-      { source: "shipwrecks", id: hoveredStateId },
-      { hover: false }
-  );
-  }
-  hoveredStateId = null;
-});
-
-
-
-
-
-// inspect a cluster on click
-map.on("click", "clusters", (e) => {
-  const features = map.queryRenderedFeatures(e.point, {
-  layers: ["clusters"],
+  // change color on hover
+  let hoveredStateId = null;
+  map.on("mousemove", "unclustered-point", (e) => {
+    if (e.features.length > 0) {
+    if (hoveredStateId !== null) {
+        map.setFeatureState(
+        { source: "shipwrecks", id: hoveredStateId },
+        { hover: false }
+        );
+    }
+    hoveredStateId = e.features[0].id;
+    map.setFeatureState(
+        { source: "shipwrecks", id: hoveredStateId },
+        { hover: true }
+    );
+    }
   });
-  const clusterId = features[0].properties.cluster_id;
-  map.getSource("shipwrecks").getClusterExpansionZoom(clusterId, (err, zoom) => {
-  if (err) return;
-  map.easeTo({
-      center: features[0].geometry.coordinates,
-      zoom: zoom,
-  });
-  });
-});
 
+  // Change color on hover for clusters layer
+  map.on("mousemove", "clusters", (e) => {
+    if (e.features.length > 0) {
+    if (hoveredStateId !== null) {
+        map.setFeatureState(
+        { source: "shipwrecks", id: hoveredStateId },
+        { hover: false }
+        );
+    }
+    hoveredStateId = e.features[0].id;
+    map.setFeatureState(
+        { source: "shipwrecks", id: hoveredStateId },
+        { hover: true }
+    );
+    }
+  });
+
+  // Return to original color on mouse leave
+  map.on("mouseleave", ["unclustered-point", "clusters"], () => {
+    if (hoveredStateId !== null) {
+    map.setFeatureState(
+        { source: "shipwrecks", id: hoveredStateId },
+        { hover: false }
+    );
+    }
+    hoveredStateId = null;
+  });
+
+
+
+
+
+  // inspect a cluster on click
+  map.on("click", "clusters", (e) => {
+    const features = map.queryRenderedFeatures(e.point, {
+    layers: ["clusters"],
+    });
+    const clusterId = features[0].properties.cluster_id;
+    map.getSource("shipwrecks").getClusterExpansionZoom(clusterId, (err, zoom) => {
+    if (err) return;
+    map.easeTo({
+        center: features[0].geometry.coordinates,
+        zoom: zoom,
+    });
+    });
+  });
 
   // on click open popup with geojson properties 
   map.on("click", "unclustered-point", (e) => {
