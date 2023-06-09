@@ -1,5 +1,4 @@
 /* DEFINE FUNCTIONS */
-
 let popup = null;
 function setInfo(feature) {
   //Get base information
@@ -331,7 +330,6 @@ map.on("click", "clusters", (e) => {
       map.getCanvas().style.cursor = "";
   });
 });
-
 
 
 
